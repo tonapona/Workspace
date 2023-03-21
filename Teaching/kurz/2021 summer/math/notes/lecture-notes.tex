@@ -1,0 +1,2044 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,hmargin=1in,vmargin=1in]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{stddoc}
+\usepackage{multicol}
+
+
+
+
+\begin{document}
+\pagenumbering{arabic}
+
+
+% Needlessly fancy header
+    \begin{center}
+        \section*{Výpisky z přípravných kurzů matematiky}
+        \vspace*{-4mm}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft}
+                \textsc{\today}
+            \end{flushleft}
+        \end{minipage}
+        ~
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushright}
+                \textsc{Martin Šimák}
+            \end{flushright}
+        \end{minipage}
+        \noindent\rule{14.5cm}{0.6pt}
+    \end{center}
+
+    \section*{16. března 2021}
+
+    \subsection*{Exponenciální funkce}
+        \begin{enumerate}
+
+            \item Co to vlastně je a kde je motivace se tím zabývat?\\
+            Jedná se funkci $f(x) = a^x$, kde $a>0$. Je to asi nejdůležitější funkce, kterou ve všech různých vědách známe,%
+                \footnote{Napříč přírodovědnými vědami můžeme naleznout aplikace exponenciály při určování rozpouštění látky v chemických směsích, propustnosti buněčných stěn nebo při výpočtech genetických mutací. Ve fyzice a matematice ani nemluvě, tam se s exponenciálou člověk potká \uv{na každém rohu.} Možná překvapivě neni k zahozeí exponenciála ani pro vědy humanitní. Například v ekonomii velice přesně modeluje složené úrokování. Dalším příkladem může být zkoumání růstu populace pomocí exponenciálních funkcí v politologii a antropologii. Takhle bychom mohli samozřejmě pokračovat do skonání věků, neboť exponenciální funkce doopravdy kopíruje přirozený růst a pokles, jak jsem se právě pokusil demonstrovat řadou příkladů.}
+            a proto je důležité její koncept řádně uchopit.
+            
+            \item Vlastnosti takové funkce?\\
+            Pro $a \in (0,1)$ se jedná o klesající funkci, kdežto pro $a > 1$ je rostoucí (záporné hodnoty a případ $a=1$ neřešíme, protože v těchto případech se nejedná o klasickou exponenciálu, jak ji známe). V obou případech však dostáváme funkci zdola omezenou (minimum však neexistuje) a shora neomezenou. Mimo jiné je tato funkce prostá (injektivní) a bez parity.
+            
+            \item Pravidla počítaní s mocninami.\\
+            Čemu se rovná $x^0$ a $x^{-1}$ je napsáno na Whiteboardu, ke kterému byste měli mít přístup přes link v Teamsech.
+            \begin{multicols}{2}
+                \begin{enumerate}[label=(\arabic*)]
+                    \item $x^a \cdot x^b = x^{a+b}$,
+                    \item $\(x^a\)^b = x^{a \cdot b}$,
+                    \item $\(x \cdot y\)^a = x^a \cdot y^a$,
+                    \item $\( x/y \)^a = x^a/y^a$,
+                    \item $x^{-a} = 1/x^a$,
+                    \item $x^a/x^b = x^{a-b}$.
+                \end{enumerate}
+            \end{multicols}
+            \begin{align}
+                x^a \cdot x^b &= \underbrace{(x \cdot x \cdots x)}_{a \text{-krát}} \cdot \underbrace{(x \cdot x \cdots x)}_{b \text{-krát}} = \underbrace{x \cdot x \cdots x \cdot x \cdot x \cdots x}_{(a+b) \text{-krát}} = x^{a+b},
+            \\
+                \(x^a\)^b &= \underbrace{\underbrace{(x \cdot x \cdots x)}_{a \text{-krát}} \cdot \underbrace{(x \cdot x \cdots x)}_{a \text{-krát}} \cdots \underbrace{(x \cdot x \cdots x)}_{a \text{-krát}}}_{b \text{-krát}} = x^{a \cdot b},
+            \\
+                \(x \cdot y\)^a &= \underbrace{(x \cdot y) \cdot (x \cdot y) \cdots (x \cdot y)}_{a \text{-krát}} = x^a \cdot y^a,
+            \\
+                \( \frac xy \)^a &= \( x \cdot \frac 1y \)^a = x^a \cdot \(\frac 1y\)^a = \frac{x^a}{y^a},
+            \\
+                x^{-a} &= x^{-1 \cdot a} = \(x^a\)^{-1} = \frac{1}{x^a},
+            \\
+                \frac{x^a}{x^b} &= x^a \cdot x^{-b} = x^{a-b}.
+            \end{align}
+            
+        \end{enumerate}
+
+    \section*{18. března 2021}
+
+        \subsection*{Exponenciální rovnice}
+        Nyní se budeme zabývat problematikou exponenciálních rovnic. Jak již název napovídá, od exponenciální funkce to nebude velký krok stranou, neboť se jedná o elementární aplikaci těchto funkcí. Samozřejmě tedy pro řešení takových rovnic budeme hojně využívat jejích vlastností, zejména pravidel pro počítání s mocninami (uvedené výše) a prostoty. Fakt, že naše funkce je prostá, nám zaručí existenci inverze, tj. funkce $f^{-1}$, kde $f$ je právě exponenciála, tak, že
+        \begin{align*}
+            \forall x \in D(f), \; f^{-1}(f(x)) = 1.
+        \end{align*}
+        Plnou formulací této inverze a jejích vlastností se sice budeme zabývat až později, i zde ji však budeme mlčky používat.
+        \begin{enumerate}[label=(\alph*)]
+            \item \begin{align*}
+                3 \cdot 2^x + 2^x &= 32,
+            \\
+                4 \cdot 2^x &= 32,
+            \\
+                2^x &= 8,
+            \\
+                2^x &= 2^3,
+            \\
+                x &= 3.
+            \end{align*}
+
+            \item \begin{align*}
+                2 \cdot 3^{x} + 3^{x+1} &= 5,
+            \\
+                2 \cdot 3^{x} + 3^1 \cdot 3^{x} &= 5,
+            \\
+                5 \cdot 3^x &= 5,
+            \\
+                3^x &= 1,
+            \\
+                3^x &= 3^0,
+            \\
+                x &= 0.
+            \end{align*}
+
+            \item V přechodu ze 4. na 5. řádek si uvědomíme, že $4^{3/2} = \(\sqrt{4}\)^3 = 2^3 = 8$.
+            \begin{align*}
+                4^x + 4^{\frac 32 - x} &= 9,
+            \\
+                4^x + 4^{\frac 32} \cdot 4^{-x} &= 9,
+            \\
+                4^x + \frac{4^{\frac 32}}{4^{x}} &= 9,
+            \\
+                4^x \cdot 4^x + 4^{\frac 32} &= 9 \cdot 4^x, \quad \Big| y \coloneqq 4^x
+            \\
+                y^2 - 9y + 8 &= 0,
+            \\
+                (y-8)(y-1) &= 0,
+            \\
+                y_1 &= 1 = 4^{x_1} \implies x_1 = 0,
+            \\
+                y_2 &= 8 = 4^{x_2} \implies 2^{2x_2} = 2^3 \implies x_2 = \frac 32,
+            \\
+                x &\in \left\{ 0, \frac 32 \right\}.
+            \end{align*}
+
+            \item Ve finálním kroku využijeme faktu, že $H(f) = \R^+ = (0,\infty)$, tudíž nemůžeme dostat záporné číslo.
+            \begin{align*}
+                3 \cdot 5^{x-2} + 7 \cdot 5^{x-3} &= 5 \cdot 3^{x-3} + 5^{x-1},
+            \\
+                3 \cdot \frac{5^x}{5^2} + 7 \cdot \frac{5^x}{5^3} &= 5 \cdot \frac{3^x}{3^3} + \frac{5^x}{5}, \quad \Big| \cdot \(5^3 \cdot 3^3\),
+            \\
+                5 \cdot 3^4 \cdot 5^x + 7 \cdot 3^3 \cdot 5^x &= 5^4 \cdot 3^x + 3^3 \cdot 5^2 \cdot 5^x,
+            \\
+                \( 5 \cdot 3^4 + 7 \cdot 3^3 - 3^3 \cdot 5^2 \) 5^x &= 5^4 \cdot 3^x, \quad \Big| \colon (5^4 \cdot 5^x),
+            \\
+                \frac{5 \cdot 3^4 + 7 \cdot 3^3 - 3^3 \cdot 5^2}{5^4} &= \(\frac 35\)^x,
+            \\
+                -\frac{81}{625} &= \(\frac 35\)^x,
+            \\
+                x &\in \emptyset.
+            \end{align*}
+        \end{enumerate}
+
+    \section*{23. března 2021}
+        \begin{enumerate}[label=(\alph*)]
+
+            \item Klíčové je využít přepisu odmocniny na mocninu jako $\sqrt[a]{x} = x^{1/a}$.
+            \begin{align*}
+                \sqrt[x]{2\sqrt 8} &= \sqrt[x]{16}\cdot 2,
+            \\
+                \sqrt[x]{2\sqrt{2^3}} &= \sqrt[x]{2^4}\cdot 2,
+            \\
+                \(2\cdot 2^{3/2}\)^{1/x} &= 2^{4/x} \cdot 2,
+            \\
+                \(2^{1+3/2}\)^{1/x} &= 2^{4/x+1},
+            \\
+                2^{5/2x} &= 2^{4/x+1},
+            \\
+                \frac{5}{2x} &= \frac 4x + 1, \quad \Big| \cdot 2x
+            \\
+                5 &= 8 + 2x,
+            \\
+                x &= -\frac 32.
+            \end{align*}
+
+            \item Zde je důležité si uvědomit přímou aplikaci $x^{-1} = 1/x$ na zlomky: $(a/b)^{-1} = b/a$.
+            \begin{align*}
+                \frac{27}{8} \(\frac 23\)^x &= \frac 49 \(\frac 94\)^{x+2},
+            \\
+                \(\frac 32\)^3 \( \frac 23 \)^x &= \( \frac 23 \)^2 \( \frac 32 \)^{2(x+2)},
+            \\
+                \(\frac 32\)^3 \( \frac 32 \)^{-x} &= \( \frac 32 \)^{-2} \( \frac 32 \)^{2(x+2)},
+            \\
+                \( \frac 32 \)^{3-x} &= \( \frac 32 \)^{2(x+1)},
+            \\
+                3-x &= 2x+2,
+            \\
+                x &= \frac 13.
+            \end{align*}
+
+            \item Opět využití různých pravidel + nezapomínáme dříve probrané (kvadratické rovnice)!
+            \begin{align*}
+                \sqrt[1/x]{\frac{4^x}{16^x}} &= 4\(\frac 12\)^x,
+            \\
+                \[ \( \frac{4}{16} \)^x \]^x &= 4\(\frac 12\)^x,
+            \\
+                \( \frac 14 \)^{x^2} &= 2^2 \cdot \(2^{-1}\)^x,
+            \\
+                4^{-x^2} &= 2^2 \cdot 2^{-x},
+            \\
+                2^{-2x^2} &= 2^{2-x},
+            \\
+                -2x^2 &= 2-x,
+            \\
+                x^2 - \frac 12x + 1 &= 0,
+            \\
+                D &= \frac 14 - 4 < 0,
+            \\
+                x &\in \emptyset.
+            \end{align*}
+
+            \item Pokud se potkáme s dvěmi různými exponenciálami v jedné rovnici (tzn. dva různé základy), snažíme se z toho vytvořit jenom jednu.
+            \begin{align*}
+                20\cdot 2^x-2^{x+1} &= 3^{x+2} -3^x,
+            \\
+                20\cdot 2^x - 2\cdot 2^x &= 9 \cdot 3^x - 3^x,
+            \\
+                (20-2)2^x &= (9-1)3^x, \quad \Big| :3^x
+            \\
+                18 \frac{2^x}{3^x} &= 8,
+            \\
+                \( \frac 23 \)^x &= \frac 49,
+            \\
+                \( \frac 23 \)^x &= \(\frac 23\)^2,
+            \\
+                x &= 2.
+            \end{align*}
+
+            \item Stejná problematika jako předchozí rovnice.
+            \begin{align*}
+                9^{x+1} + 5\cdot 6^{x} &= 4^{x+1},
+            \\
+                9 \cdot 9^{x} + 5\cdot 6^{x} &= 4 \cdot 4^x,
+            \\
+                9 \cdot 3^{2x} + 5 \cdot 2^x \cdot 3^x &= 4\cdot 2^{2x}, \quad \Big| :3^{2x}
+            \\
+                9 + 5 \frac{2^x}{3^x} &= 4 \frac{2^{2x}}{3^{2x}},
+            \\
+                9 + 5 \(\frac 23\)^x &= 4 \(\frac 23\)^{2x}, \quad \Big| y \coloneqq (2/3)^x
+            \\
+                4 y^2 - 5 y - 9 &= 0,
+            \\
+                D &= 5^2 + 4\cdot4\cdot9 = 169,
+            \\
+                y_{1,2} &= \frac{5 \pm \sqrt{169}}{8},
+            \\
+                y_{1} &= \frac{9}{4} = \(\frac 23\)^{x_1} \implies x_1 = -2,
+            \\
+                y_2 &= -1 = \(\frac 23\)^{x_1} \implies x_2 \in \emptyset,
+            \\
+                y &\in \{-2\}.
+            \end{align*}
+
+            \item Více exponenciál se stejným základem většinou vede na substitice v rovnicích.
+            \begin{align*}
+                4\cdot 16^{x} + 4^{x+1} &= 2\cdot 8^{x+1} + 2^{3x},
+            \\
+                4 \cdot \( 2^4 \)^{x} + \(2^2\)^{x+1} &= 2 \cdot \(2^3\)^{x+1} + 2^{3x},
+            \\
+                4 \cdot 2^{4x} + 2^{2x+2} &= 2\cdot 2^{3x+3} + 2^{3x},
+            \\
+                4 \cdot 2^{4x} + 4 \cdot 2^{2x} &= 16\cdot 2^{3x} + 2^{3x}, \quad \Big| y \coloneqq 2^x
+            \\
+                4y^4 + 4y^2 &= 16y^3 + y^3,
+            \\
+                4y^4 - 17y^3 + 4y^2 &= 0,
+            \\
+                y^2\(4y^2 - 17y + 4\) &= 0,
+            \\
+                D &= 17^2 - 4^3 = 225,
+            \\
+                y_{1,2} &= \frac{17 \pm \sqrt{225}}{8},
+            \\
+                y_{1,2} &= \frac{17 \pm 15}{8},
+            \\
+                y_1 &= 4 \implies x_1 = 2,
+            \\
+                y_2 &= \frac 14 \implies x_2 = -2,
+            \\
+                y_3 &= 0, \implies x_3 \text{ neexsituje},
+            \\
+                x &\in \{ -2,2\}.
+            \end{align*}
+            
+        \end{enumerate}
+
+        \subsection*{Exponenciální nerovnice}
+        Nyní se jen chvilkově obrátíme k exponenciálním nerovnicím. Na tuto problematiku se budou vztahovat naprosto stejné techniky až na to, že musíme dávat pozor na polaritu nerovnosti. Kdykoli totiž člověk přechází z jednoho řádku rovnice na druhý, aplikuje na obě strany rovnice nějakou funkci. Rovnosti se samozřejmě zachovávají, ale nerovnost se zachovává pouze v tom případě, že člověk aplikuje funkci rostoucí. V případě klesajících funkcí samozřejmě problém řešíme otočením nerovnosti. Tato důležitá vlastnost vyplývá přímo z definic rostoucí a klesající funkce:
+        \begin{align*}
+            \tag{rostoucí}
+            &\forall x \in D(f)\, \; x_1 < x_2 \implies f(x_1) < f(x_2),
+        \\
+            \tag{klesající}
+            &\forall x \in D(f)\, \; x_1 < x_2 \implies f(x_1) > f(x_2).
+        \end{align*}
+        My samozřejmě víme, že exponenciální funkce $f(x) = a^x$ je rostoucí právě tehdy, když $a>1$, a klesající, když $1<a<0$. Záporné hodnoty a hodnotu $a=1$ neuvažujeme, neboť se pak nejedná o exponenciálu v klasickém slova smyslu.%
+            \footnote{Navíc bychom se mohli dostat do problémů, pokud bychom chtěli například definovat $a^{1/2} = \sqrt a$. Kdybychom připouštěli záporná $a$, neexistovala by taková hodnota v reálných číslech.}
+        \begin{enumerate}
+
+            \item \begin{align*}
+                3^{x+5} &< 1,
+            \\
+                3^{x+5} &< 3^0,
+            \\
+                x+5 &< 0,
+            \\
+                x &< -5,
+            \\
+                x &\in (-\infty,-5).
+            \end{align*}
+
+            \item Dva různé způsoby řešení, přičemž pokud nezapomeneme na korektní postupy, dostáváme samozřejmě stejné výsledky.
+            \begin{align*}
+                \(\frac 12\)^x &\leq 2,
+            &
+                \(\frac 12\)^x &\leq 2,
+            \\
+                \( \frac 12 \)^x &\leq \(\frac 12\)^{-1},
+            &
+                2^{-x} &\leq 2,
+            \\
+                x &\geq -1,
+            &
+                -x &\leq 1,
+            \\
+                &
+            &
+                x &\geq -1.
+            \end{align*}
+
+            \item Víme, že $\sqrt 2 \approx 1,414 > 1$, tudíž nemusíme obracet nerovnost.
+            \begin{align*}
+                \sqrt{2^x} &\geq 2,
+            \\
+                \(\sqrt 2\)^x &\geq \(\sqrt 2\)^2,
+            \\
+                x &\geq 2.
+            \end{align*}
+
+            \item \begin{align*}
+                \frac{2^{x^2}}{2^{5x}} &\leq \frac{1}{16},
+            \\
+                2^{x^2-5x} &\leq 2^{-4},
+            \\
+                x^2-5x+4 &\leq 0,
+            \\
+                (x-1)(x-4) &\leq 0,
+            \\
+                x &\in [1,4].
+            \end{align*}
+
+            \item \begin{align*}
+                3\cdot 9^x - 3^{x+3} &\geq 3^x - 9,
+            \\
+                3\cdot 3^{2x} - 27\cdot 3^x - 3^x + 9 &\geq 0,
+            \\
+                3\cdot 3^{2x} - 28\cdot 3^x + 9 &\geq 0, \quad \Big| y \coloneqq 3^x
+            \\
+                3y^2 - 28y + 9 &\geq 0,
+            \\
+                D &= 28^2 - 4\cdot3\cdot9 = 676,
+            \\
+                y_{1,2} &= \frac{28 \pm \sqrt{676}}{6},
+            \\
+                y_1 &= 9,
+            \\
+                y_2 &= \frac 13,
+            \\
+                y &\in (-\infty,1/3] \cup [9,\infty).
+            \end{align*}
+            Vyřešili jsme rovnici pro substituci, ale jak dále? Výsledný interval pro $y$ můžeme přepsat jako dvě jednoduché nerovnice a následovně opět spojit:
+            \begin{align*}
+                y &\leq \frac 13,
+            &
+                y &\geq 9,
+            \\
+                3^x &\leq \frac 13,
+            &
+                3^x &\geq 9,
+            \\
+                x &\leq -1,
+            &
+                x &\geq 2.
+            \end{align*}
+            Výsledek pro originální proměnnou $x$ je tedy
+            \begin{align*}
+                x \in (-\infty,-1]\cup[2,\infty).
+            \end{align*}
+
+        \end{enumerate}
+        
+        Vidíme, že kromě toho, že si musíme dávat pozor na otáčení nerovnosti, se nejedná o nic nového. Pouze aplikujeme znalosti exponenciální funkce na problematiku nerovnic, které známe již z dřívějška.
+
+    \section*{1. dubna 2021 (dobrovolná hodina)}
+
+        \paragraph*{Úloha o pohybu.} První část cyklistické trasy tvoří stoupání dlouhé 3 km, zbylou část klesání dlouhé 13 km. Pavlova průměrná rychlost na celé trase byla dvojnásobkem jeho rychlosti na první části trasy, jež byla o 16 km$\cdot$h$^{-1}$ menší než na druhé části trasy. Za jak dlouho ujel Pavel celou trasu?
+
+        \paragraph*{Řešení.}
+
+        \paragraph*{Průchod rentgenu olovem.} Intenzita rentgenových paprsků se sníží na polovinu při průchodu vrstvou olova o tloušťce 13,5 mm. Urči tloušťku olověné desky, která zeslabí intenzitu rentgenových paprsků na desetinu původní hodnoty.
+
+        \paragraph*{Řešení.} Pro časový vývoj intenzity rentgenového záření při průchodu olovem platí vztah
+        \begin{align}
+            \label{eq:rtg-intensity}
+            I(x) &= I_0 \( \frac 12 \)^{\frac{x}{13,5}} = I_0 \cdot 2^{-\frac{x}{13,5}}.
+        \end{align}
+
+        \paragraph*{Radiouhlíková metoda.} Radiouhlíková metoda určování stáří organických materiálů využívá rozpad radioaktivního uhlíku $^{14}_6$C. Radioaktivní uhlík $^{14}_6$C má poločas rozpadu 5730 let, protože však neustále vzniká kvůli dopadu kosmického záření, jeho obsah v atmosféře se nemění. Protože suchozemské živé organismy čerpají uhlík z atmosféry, je za jejich života obsah radioaktivního uhlíku $^{14}_6$C v jejich tělech stejný jako v atmosféře. Jakmile však zemřou, přestane se radioaktivní uhlík v jejich tělech doplňovat a kvůli rozpadu jeho množství exponenciálně klesá. Z podílu radioaktivního uhlíku tak můžeme zjistit, jak dlouhá doba uplynula od okamžiku, kdy organismus uhynul. Při vykopávkách byla nalezena kostra, která obsahovala 78,6\% radioaktivního uhlíku živého organismu. Urči, které významné historické osobnosti mohla kostra náležet. 
+            
+        \paragraph*{Řešení.} Ze zadání můžeme jednoduše vymyslet vzorec pro rozpad radioaktivního uhlíku $^{14}_6$ C. V textu je obsažena informace, že poločas rozpadu je 5730 let. To znamená, že statisticky se za danou dobu rozpadne zhruba polovina atomů na atomy lehčích prvků. Jelikož závislost má být exponenciální, můžeme pro počet atomů radioaktivního prvku v těle $N$ (samozřejmě v závislosti na čase $t$) napsat
+        \begin{align}
+            N(t) &= N_0 \(\frac 12\)^{\frac{t}{5730 \text{ let}}} = N_0 \cdot 2^{-\frac{t}{5730 \text{ let}}}.
+        \end{align}
+        Dále ze zadání můžeme vyčíst, že nás bude zajímat pouze podíl (tj. poměr) obsaženého radioaktivního prvku v těle kostry. Nebudeme tedy počítat přímo $N(t)$, nýbrž podíl $N(t)/N_0$, což nám umožní psát vztah
+        \begin{align}
+            p(t) &= 2^{-\frac{t}{5730 \text{ let}}},
+        \end{align}
+        kde $p$ je poměr obsažení radioaktivního prvku v kostře/těle. Dostáváme tak rovnici
+        \begin{align*}
+            0,786 &= 2^{-\frac{t}{5730 \text{ let}}}, \quad \Big| \log_2
+        \\
+            \log_2(0,786) &= -\frac{t}{5730 \text{ let}},
+        \\
+            t &= -5730 \cdot \log_2(0,786) \text{ let},
+        \\
+            t &= 5730 \cdot |\log_2(0,786)| \text{ let},
+        \\
+            t &\approx 1991 \text{ let}.
+        \end{align*}
+
+        \paragraph*{Tvrzení.}
+        \begin{align*}
+            \forall a, b, x \in \R^+: \: \log_a(x) = \frac{\log_b(x)}{\log_b(a)}.
+        \end{align*}
+
+        \paragraph*{Důkaz.}
+        \begin{align*}
+            x &= a^{\log_a(x)}, \quad \Big| \log_b
+        \\
+            \log_b(x) &= \log_b\(a^{\log_a(x)}\),
+        \\
+            \log_b(x) &= \log_a(x) \log_b\(a\),
+        \\
+            \log_a(x) &= \frac{\log_b(x)}{\log_b(a)}.
+        \end{align*}
+
+    \section*{6. dubna 2021}
+        
+        \subsection*{Řešení exponenciálních rovnic pomocí logaritmu}
+        \begin{enumerate}
+            
+            \item \begin{align*}
+                2^{x} &= 8,
+            \\
+                2^{x} &= 2^3,
+            \\
+                \log_2\(2^{x}\) &= \log_2\(2^3\),
+            \\
+                x &= 3.
+            \end{align*}
+    
+            \item \begin{align*}
+                3^x &= 8,
+            \\
+                x &= \log_3(8).
+            \end{align*}
+
+        \end{enumerate}
+
+        \subsection*{Logaritmické rovnice}
+        Klíčová znalost pro řešení logaritmických rovnic bude znalost pravidel pro počítání s logaritmy podobně jako tomu bylo s exponenciálními rovnicemi a s pravidly pro počítání s mocninami. Nejprve si je tedy bez důkazu napišme, neboť ten proběhl na minulých přednáškách.
+        \begin{enumerate}[label=(\alph*)]
+            \item $\log_a(x) + \log_a(y) = \log_a(x\cdot y)$,
+            \item $\log_a(x) - \log_a(y) = \log_a(x/y)$,
+            \item $\log_a\(x^n\) = n \log_a(x)$,
+            \item $\log_a(x) = \log_b(x)/\log_b(a)$.
+        \end{enumerate}
+        Ještě pro opakování a upevnění symboliky si připoměňme, že existují dva speciální typy logaritmů, pro něž pro jejich běžnost neuvádíme základ. Konkrétně jde o
+        \begin{align*}
+            \log(x) &\equiv \log_{10}(x),
+        &
+            \ln(x) &\equiv \log_{e}(x),
+        \end{align*}
+        přičemž první z nich nazýváme logaritmus \emph{dekadický} a druhý logaritmus \emph{přirozený}. Vhodné je si uvědomit, že názvem také koresponduje \emph{přirozená} exponenciála $e^x$.
+
+        V následujících postupech budeme často uplatňovat postup, kdy se dostaneme do nepříjemné situace $\log_a(f(x)) = \log_a(g(x))$, kde funckemi $f$ a $g$ pouze symbolizuji, že se může jednat o nějakou manipulaci (funkci) s proměnnou, ne jen pouhý argument $x$, a v další úpravě budeme chtít psát $f(x) = g(x)$, z čehož již na základě dříve nabitých znalostí vytěžíme hodnotu proměnné $x$. Připomeňme si, že \emph{každá} rovnicová úprava se dá zapsat v jazyce funkcí, tj. každá rovnicová úprava je vlastně aplikace nějaké funkce na obě strany rovnice.%
+            \footnote{Každý si může za individuální \uv{domácí cvičení} promyslet, jak interpretovat různé rovnicové úpravy, jako například \uv{vynásobení konstantou}, \uv{umocnění}, \uv{přemístnění členu z jedné strany rovnice na druhou s mínusem} nebo pouhé \uv{přepsání nějakého výrazu do jiného tvaru}.}
+        Z toho potom vyplývá něco jako \uv{neekvivalentní úpravy}, kdy nejde o nic jiného, než o aplikaci nejednoznačné funkce (aplikovaná funkce například není prostá). V tomto duchu by bylo skvělé, abychom si všichni uvědomovali, že něco jako \uv{od-logaritmování} nebo \uv{od-exponenciálování} je pouhé lidové výrazy pro aplikace inverzních funkcí na obě strany rovnice potom, co jsme si je převedli na danou funkci se stejným základem (jde o vyjádření obou stran rovnice jako hodnot jedné a té samé funkce). Jak již víme z předchozích hodin, inverze k exponenciále je logaritmus a \emph{vice versa}. Tento fakt je dán samozřejmě apriorní konstrukcí logaritmu jako inverze k exponenciále. Musí tedy z definice platit rovnosti
+        \begin{align*}
+            a^{\log_a(x)} = \log_a\(a^x\) = x,
+        \end{align*}
+        což přímo kopíruje definice inverzní funkce, tj. $f^{-1}(f(x)) = f(f^{-1}(x)) = x$. Ze začátku tedy budeme psát pro upevnění této znalosti při této konkrétní úpravě, že aplikujeme exponenciálu či logaritmus pro \uv{od-logaritmování} nebo \uv{od-exponenciálování} respektive.
+
+        Nyní se tedy již pusťme do řešení logaritmických rovnic, přičemž také nezapomínejme na řešení podmínek. Tento problém je pro nás takřka nový, protože doteď jsme se nepotýkali s funkcemi s omezeným definičním oborem.
+
+        \begin{enumerate}
+            
+            \item \begin{align*}
+                \log_2(x) + \log_2(x+1) &= \log_2(-2x).
+            \end{align*}
+            Podmínky:
+            \begin{align*}
+                x &> 0,
+            &
+                x+1 &> 0,
+            &
+                -2x &> 0,
+            \\
+                x &> 0,
+            &
+                x &> -1,
+            &
+                x &< 0,
+            \\
+                &
+            &
+                \Aboxed{x &\in \emptyset.}
+            &
+                &
+            \end{align*}
+
+            \item \begin{align*}
+                2\log(x) &= \log(x+6).
+            \end{align*}
+            Podmínky:
+            \begin{align*}
+                x &> 0,
+            &
+                x+6 &> 0,
+            \\
+                x &> 0,
+            &
+                x &> -6.
+            \end{align*}
+            Výsledná podmínka je tedy, že $x \in (0,\infty)$.
+            \begin{align*}
+                \log\(x^2\) &= \log(x+6), \quad \Big| 10^x
+            \\
+                10^{\log\(x^2\)} &= 10^{\log(x+6)},
+            \\
+                x^2 &= x+6,
+            \\
+                x^2 - x - 6 &= 0,
+            \\
+                (x+2)(x-3) &= 0,
+            \\
+                x &\in \{-2,3\} \cap (0,\infty),
+            \\
+                x &\in K = \{3\}.
+            \end{align*}
+\newpage
+            \item \begin{align*}
+                \ln\(\log_2\[\log_{0,5}(x)\]\) &= 0.
+            \end{align*}
+            Podmínky: $x > 0$, tj. $x \in (0,\infty)$.
+            \begin{align*}
+                \ln\(\log_2\[\log_{0,5}(x)\]\) &= \ln(1), \quad \Big| e^x
+            \\
+                \log_2\[\log_{0,5}(x)\] &= 1,
+            \\
+                \log_2\[\log_{0,5}(x)\] &= \log_2(2), \quad \Big| 2^x
+            \\
+                \log_{1/2}(x) &= 2,
+            \\
+                \log_{1/2}(x) &= \log_{1/2}\(\frac 14\), \quad \Big| \(\frac 12\)^x
+            \\
+                x &\in \left\{\frac 14\right\} \cap (0,\infty),
+            \\
+                x &\in K = \left\{\frac 14\right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_8\(2\log_3\[1+\log_2\(2-\log_{0,5}\[x\]\)\]\) &= \frac 13.
+            \end{align*}
+            Podmínky: $x>0$, tj. $x \in (0,\infty)$.
+            \begin{align*}
+                \log_8\(2\log_3\[1+\log_2\(2-\log_{0,5}\[x\]\)\]\) &= \frac 13,
+            \\
+                \log_8\(2\log_3\[1+\log_2\(2-\log_{0,5}\[x\]\)\]\) &= \log_8\(8^{1/3}\),
+            \\
+                2\log_3\[1+\log_2\(2-\log_{0,5}\[x\]\)\] &= 2, \quad \Big| :2
+            \\
+                \log_3\[1+\log_2\(2-\log_{0,5}\[x\]\)\] &= 1,
+            \\
+                \log_3\[1+\log_2\(2-\log_{0,5}\[x\]\)\] &= \log_3(3),
+            \\  
+                1+\log_2\(2-\log_{0,5}\[x\]\) &= 3,
+            \\
+                \log_2\(2-\log_{0,5}\[x\]\) &= 2,
+            \\
+                \log_2\(2-\log_{0,5}\[x\]\) &= \log_2(4),
+            \\
+                2-\log_{0,5}\[x\] &= 4,
+            \\
+                \log_{1/2}\[x\] &= -2,
+            \\
+                \log_{1/2}\[x\] &= \log_{1/2}\[\(\frac 12\)^{-2}\],
+            \\
+                x &\in \{4\} \cap (0,\infty),
+            \\
+                x &\in K = \{4\}.
+            \end{align*}
+\newpage
+            \item \begin{align*}
+                \frac{\log_4(x)-1}{0,5+\log_4(3)} &= 1.
+            \end{align*}
+            Podmínka: $x>0$, tj. $x \in (0,\infty)$.
+            \begin{align*}
+                \log_4(x)-1 &= \frac 12+\log_4(3),
+            \\
+                \log_4\(x\) - \log_4(4) &= \log_4\(\sqrt{4}\) + \log_4(3),
+            \\
+                \log_4\(\frac x4\) &= \log_4(6),
+            \\
+                \frac x4 &= 6,
+            \\
+                x &\in \{24\} \cap (0,\infty),
+            \\
+                x &\in K = \{24\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_3(x-1) + \log_3(x+1) &= 1.
+            \end{align*}
+            Podmínky: $x > 1$.
+            \begin{align*}
+                \log_3\[(x-1)(x+1)\] &= \log_3(3),
+            \\
+                (x-1)(x+1) &= 3,
+            \\
+                x^2 - 1 &= 3,
+            \\
+                x^2 &= 4,
+            \\  
+                |x| &= 2,
+            \\
+                x &\in \{-2,2\} \cap (1,\infty),
+            \\
+                x &\in K = \{2\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_6\(\sqrt{x+16}\) + \log_6\(\sqrt x\) &= 1.
+            \end{align*}
+            Podmínky:\begin{align*}
+                x + 16 &\geq 0,
+            &
+                x &\geq 0,
+            &
+                \sqrt{x+16} &> 0,
+            &
+                \sqrt x &> 0.
+            \end{align*}
+            Tyto podmínky lze zjednodušit na
+            \begin{align*}
+                x &> -16,
+            &
+                x &> 0,
+            \end{align*}
+            tj. $x \in (0,\infty)$.
+            \begin{align*}
+                \log_6\(\sqrt{x+16}\) + \log_6\(\sqrt x\) &= 1,
+            \\
+                \log_6\((x+16)^{1/2}\) + \log_6\(x^{1/2}\) &= 1,
+            \\
+                \frac 12 \log_6(x+16) + \frac 12 \log_6(x) &= 1, \quad \Big| \cdot 2
+            \\
+                \log_6(x+16) + \log_6(x) &=  2,
+            \\
+                \log_6\[(x+16)x\] &= \log_6(36),
+            \\
+                x^2 + 16x &= 36,
+            \\
+                x^2 +16x - 36 &= 0,
+            \\
+                (x+18)(x-2) &= 0,
+            \\
+                x &\in \{-18,2\} \cap (0,\infty),
+            \\
+                x &\in K = \{2\}.
+            \end{align*}
+
+        \end{enumerate}
+
+    \section*{8. dubna 2021}
+
+        \subsection*{Pokračování logaritmických rovnic}
+        \begin{enumerate}
+
+            \item \begin{align*}
+                \log_2\(\sqrt x\) + \log_2\(2x^2\) - \log_2\(3x^3\) &= \log_2\(\frac{1}{x^2}\) + \log_2\(\frac{x^2}{3}\).
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                \log_2\(\frac{\sqrt x \cdot 2x^2}{3x^3}\) &= \log_2\(\frac{1}{x^2} \cdot \frac{x^2}{3}\),
+            \\
+                \log_2\(\frac{2\sqrt x}{3x}\) &= \log_2\(\frac{1}{3}\),
+            \\
+                \frac 23 \cdot \frac{1}{\sqrt x} &= \frac 13, \quad \Big| \cdot 3\sqrt x
+            \\
+                2 &= \sqrt x,
+            \\
+                x &\in \{4\} \cap (0,\infty),
+            \\
+                x &\in K = \{4\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \frac{\log_\pi\(10+3x\)}{\log_\pi\(x+4\)} &= 2.
+            \end{align*}
+            Podmínky:
+            \begin{align*}
+                x &> -4,
+            &
+                x &> -\frac{10}{3},
+            &
+                x &\neq -3,
+            \end{align*}
+            tj. $x \in (-10/3,\infty) \setminus \{-3\}$.
+            \begin{align*}
+                \log_\pi\(10+3x\) &= 2\log_\pi\(x+4\),
+            \\
+                \log_\pi\(10+3x\) &= \log_\pi\((x+4)^2\),
+            \\
+                10 + 3x &= x^2 + 8x + 16,
+            \\
+                x^2 + 5x + 6 &= 0,
+            \\
+                (x+2)(x+3) &= 0,
+            \\
+                x &\in \{-3,-2\} \cap \[(-10/3,\infty) \setminus \{-3\}\],
+            \\
+                x &\in K = \{-2\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \frac{1-2\log(x)}{3+\log(x)} &= \frac{4-2\log(x)}{5+\log(x)}.
+            \end{align*}
+            Podmínky:\begin{align*}
+                x &> 0,
+            &
+                \log(x) &\neq -3,
+            &
+                \log(x) &\neq -5,
+            \\
+                x &> 0,
+            &
+                x &\neq 10^{-3},
+            &
+                x &\neq 10^{-5},
+            \end{align*}
+            tj. $x \in (0,\infty) \setminus \{10^{-5},10^{-3}\}$. Substituce: $y \coloneqq \log(x)$.
+            \begin{align*}
+                \frac{1-2y}{3+y} &= \frac{4-2y}{5+y}, \quad \Big| \cdot(3+y)(5+y)
+            \\
+                (1-2y)(5+y) &= (4-2y)(3+y),
+            \\
+                5 + y - 10y - 2y^2 &= 12 + 4y - 6y - 2y^2,
+            \\
+                7y &= -7,
+            \\
+                y &= -1, \quad \Big| y = \log(x)
+            \\
+                \log(x) &= -1,
+            \\  
+                x &\in \{10^{-1}\} \cap \[(0,\infty) \setminus \{10^{-5},10^{-3}\}\],
+            \\
+                x &\in K = \{10^{-1}\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_4\(x^3\)\[\log_4\(x^2\)-1\] &= 2 + \log_4\(\frac{1}{x^2}\).
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                3\log_4\(x\)\[2\log_4\(x\)-1\] &= 2 - 2\log_4\(x\), \quad \Big| y \coloneqq \log_4(x)
+            \\
+                3y\(2y-1\) &= 2 - 2y,
+            \\
+                6y^2 - 3y -2 + 2y &= 0,
+            \\
+                6y^2 - y - 2 &= 0,
+            \\
+                y_{1,2} &= \frac{1 \pm \sqrt{1+4\cdot6\cdot2}}{12},
+            \\
+                y_{1,2} &= \frac{1\pm\sqrt{49}}{12},
+            \\
+                y &\in \left\{ -\frac 12, \frac 23 \right\},
+            \\
+                \log_4(x) &\in \left\{ -\frac 12, \frac 23 \right\},
+            \\
+                x &\in \left\{ 4^{-1/2}, 4^{2/3} \right\} \cap (0,\infty),
+            \\
+                x &\in K = \left\{ \frac 12, 2\sqrt[3]{2} \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                2\log_3\(9x\) + \log_3\(\frac 1x\) &= \log_3\(x^3\) + \log_3\(27\).
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                2\[\log_3(9) + \log_3(x)\] - \log_3(x) &= 3\log_3\(x^3\) + 3, \quad \Big| y \coloneqq \log_3(x)
+            \\
+                2(2+y) - y &= 3y + 3,
+            \\
+                4 + 2y &= 4y + 3,
+            \\
+                y &= \frac 12,
+            \\
+                x &\in \left\{ 3^{1/2} \right\} \cap (0,\infty),
+            \\
+                x &\in K = \left\{ \sqrt 3 \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                2\log\(2x^2\) + 4\log\(x^3\) + 2\log\(3\) &= 3\log\(x^4\) + 2 + \log\(x^2\).
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                2\[ \log(2) + 2\log(x) \] + 12\log(x) + 2\log(3) &= 12\log(x) + \log(100) + 2\log(x),
+            \\
+                4\log(x) - 2\log(x) &= \log(100) - 2\log(2) - 2\log(3),
+            \\
+                2\log(x) &= 2\log(10) - 2\log(2) - 2\log(3), \quad \Big| :2
+            \\
+                \log(x) &= \log\( \frac{10}{2\cdot 3} \),
+            \\
+                x &\in \left\{ \frac{5}{3} \right\} \cap (0,\infty),
+            \\
+                x &\in K = \left\{ \frac 53 \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_2\(8x^2\) + \log_2^2\(2x^2\) &= 8.
+            \end{align*}
+            Podmínky: $x \in \R \setminus \{0\}$. Pozor na význam $\log_2^2(x) = \(\log_2(x)\)^2$. Dále také musíme dát pozor na nesprávnou úpravu $\log\(x^2\) = 2\log(x)$. Pojďme si napsat, co by to totiž znamenalo.
+            \begin{align*}
+                2\log(x) = \log\(x^2\) &= \log\((-x)^2\) = 2\log(-x),
+            \\
+                \log(x) &= \log(-x),
+            \end{align*}
+            což je samozřejmě špatně.%
+                \footnote{Občas se stane, jak již se nám také už nejednou stalo, že na tuto korekci zapomeneme, ale ve chyba se ve výsledku neobjeví. To je tím, že zpravidla v těchto případech existuje v rovnici ještě logaritmus, jehož argument je vyjádřen jinak než v sudé mocnině. Podmínky z něj plynoucí (např. $x>0$) nám následně absolutní hodnotu eliminují. V tomto speciálním příkladu si na to však musíme dát pozor.}
+            Správně je při aplikaci tohoto pravidla pro sudé mocniny psát
+            \begin{align*}
+                \log\(x^2\) = 2\log(|x|).
+            \end{align*}
+            Pojďme se o to tedy pokusit.
+            \begin{align*}
+                \log_2(8) + 2\log_2\(|x|\) + \[\log_2(2) + 2\log_2(|x|)\]^2 &= 8, \quad \Big| y \coloneqq \log_2\(|x|\)
+            \\
+                3 + 2y + (1 + 2y)^2 &= 8,
+            \\
+                -5 + 2y + 1 + 4y + 4y^2 &= 0,
+            \\
+                4y^2 +6y -4 &= 0,
+            \\
+                2y^2 + 3y - 2 &= 0,
+            \\
+                y_{1,2} &= \frac{-3 \pm \sqrt{9+4\cdot2\cdot2}}{4},
+            \\
+                y_{1,2} &= \frac{-3 \pm 5}{4},
+            \\
+                y &\in \left\{ -2, \frac 12 \right\},
+            \\
+                |x| &\in \left\{ \frac 14, \sqrt 2 \right\} \cap \[ \R \setminus\{0\} \],
+            \\
+                x &\in \left\{ \pm \frac 14, \pm \sqrt 2 \right\} \cap \[ \R \setminus\{0\} \],
+            \\
+                x &\in K = \left\{ \pm \frac 14, \pm \sqrt 2 \right\}.
+            \end{align*}
+
+        \end{enumerate}
+
+    \section*{13. dubna 2021}
+
+        \subsection*{Pokračování logaritmických rovnic}
+        \begin{enumerate}
+
+            \item \begin{align*}
+                x^{\log_3(x)} &= 27x^2. \quad \Big| \log_3
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                \log_3\(x^{\log_3(x)}\) &= \log_3\(27x^2\),
+            \\
+                \log_3(x) \cdot \log_3(x) &= \log_3(27) + 2\log_3(x), \quad \Big| y \coloneqq \log_3(x)
+            \\
+                y^2 - 2y - 3 &= 0,
+            \\
+                (y+1)(y-3) &= 0,
+            \\
+                y &\in \{-1,3\},
+            \\
+                x &\in \left\{ \frac 13, 27 \right\} \cap (0,\infty),
+            \\
+                x &\in K = \{1/3,27\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_2\(x\) - 2\log_4(x) + \log_8(x) &= 1.
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                \log_2(x) - 2\cdot \frac{\log_2(x)}{\log_2(4)} + \frac{\log_2(x)}{\log_2(8)} &= \log_2(2),
+            \\
+                \log_2(x) - 2\cdot \frac{\log_2(x)}{2} + \frac{\log_2(x)}{3} &= \log_2(2),
+            \\
+                \frac 13 \log_2(x) &= \log_2(2),
+            \\
+                \log_2(x) &= \log_2(8),
+            \\
+                x &\in K = \{8\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \log_x(2) \cdot \log_{2x}(2) &= \log_{4x}(2).
+            \end{align*}
+            Podmínky: $x \in (0,\infty) \setminus \{1/4,1/2,1\}$ aby základ logaritmů nebyl roven jedné. Co by to znamenalo, takový výraz $\log_1(x)$?
+            \begin{align*}
+                \log_1(x) &= y,
+            \\
+                x &= 1^y,
+            \\
+                x &= 1.
+            \end{align*}
+            Jak je vidět, měli bychom funkci, která má definiční obor $\{1\}$ a obor hodnot $\R$. To je samozřejmě nemožné, doslova to není funkce. Nyní již k řešení rovnice:
+            \begin{align*}
+                \frac{\log_2(2)}{\log_2(x)} \cdot \frac{\log_{2}(2)}{\log_2(2x)} &= \frac{\log_2(2)}{\log_2(4x)},
+            \\
+                \frac{1}{\log_2(x)} \cdot \frac{1}{\log_2(2) + \log_2(x)} &= \frac{1}{\log_2(4) + \log_2(x)},
+            \\
+                \frac{1}{\log_2(x)} \cdot \frac{1}{1 + \log_2(x)} &= \frac{1}{2 + \log_2(x)}, \quad \Big| y \coloneqq \log_2(x)
+            \\
+                \frac{1}{y} \cdot \frac{1}{y+1} &= \frac{1}{y+2}, \quad \Big| \cdot y(y+1)(y+2)
+            \\
+                y+2 &= y(y+1),
+            \\
+                y^2 &= 2,
+            \\
+                y &\in \left\{ \pm \sqrt 2 \right\},
+            \\
+                x &\in \left\{ 2^{\pm \sqrt 2} \right\} \cap \[ (0,\infty) \setminus \left\{ \frac 14, \frac 12,1 \right\} \],
+            \\
+                x &\in K = \left\{ 2^{-\sqrt 2}, 2^{\sqrt 2} \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                0,5^{\log_3(x)} + 4 &= 4 \cdot 0,5^{\log_3(x)+1}.
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                \(\frac 12\)^{\log_3(x)} + 4 &= 4 \cdot \frac 12 \cdot \(\frac 12\)^{\log_3(x)},
+            \\
+                \(\frac 12\)^{\log_3(x)} &= 4,
+            \\
+                \(\frac 12\)^{\log_3(x)} &= \(\frac 12\)^{-2},
+            \\
+                \log_3(x) &= -2,
+            \\
+                x &\in K = \left\{ \frac 19 \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                3\cdot 4^{\log(x)} - 25\cdot 2^{\log(x)} + 8 &= 0.
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$. Substituce: $y \coloneqq 2^{\log(x)}$.
+            \begin{align*}
+                3y^2 - 25y + 8 &= 0,
+            \\
+                D &= 25^2 - 4\cdot 3 \cdot 8 = 529,
+            \\
+                \sqrt D &= 23,
+            \\
+                y_{1,2} &= \frac{25 \pm 23}{6},
+            \\
+                y &\in \left\{ \frac 13, 8 \right\}.
+            \end{align*}
+            Nyní vrátíme substituci:
+            \begin{align*}
+                2^{\log(x_1)} &= \frac 13, \quad \Big| \log_2
+            &
+                2^{\log(x_2)} &= 8,
+            \\
+                \log_2\(2^{\log(x_1)}\) &= \log_2\(\frac 13\),
+            &
+                2^{\log(x_2)} &= 2^3,
+            \\
+                \log(x_1) &= -\log_2\(3\), \quad \Big| 10^x
+            &
+                \log(x_2) &= 3, \quad \Big| 10^x
+            \\
+                x_1 &= 10^{-\log_2\(3\)},
+            &
+                x_2 &= 10^3,
+            \end{align*}
+            Oba výsledky jsou kladná čísla, tudíž validní. Můžeme psát
+            \begin{align*}
+                x \in K = \left\{ 10^{-\log_2\(3\)}, 10^3 \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                x + \log_3\(3^x+6\) &= 3.
+            \end{align*}
+            Podmínky: musí platit $3^x>-6$. To ovšem platí vždy, protože z exponenciály nikdy nedostáváme záporná čísla. Není to tedy omezující podmínka a píšeme $x \in \R$.
+
+            Nyní bychom se mohli pozastavit nad tím, jak následující rovnici vyřešit. Jak vidíme na levé straně, neznámá se nachází v logaritmu i mimo něj. Pokusme se tedy sjednotit. V logaritmu se vyskytuje součet, takže s tím nic neuděláme. Nezbývá tedy nic jiného než se pokusit dostat $x$ v obou případech do logaritmu o jednom základě. Jedná se totiž pak o součet logaritmů, s čímž umíme pracovat.
+            \begin{align*}
+                \log_3\(3^x\) + \log_3\(3^x + 6\) &= \log_3(27),
+            \\
+                \log_3\(3^x\(3^x+6\)\) &= \log_3(27),
+            \\
+                3^x\(3^x+6\) &= 27, \quad \Big| y \coloneqq 3^x
+            \\
+                y(y+6) &= 27,
+            \\
+                y^2 + 6y - 27 &= 0,
+            \\
+                (y+9)(y-3) &= 0,
+            \\
+                y &\in \{3\},
+            \\
+                x &\in K = \left\{ 1 \right\}.
+            \end{align*}
+            Poznámka: při řešení kvadratické rovnice pro $y$ jsme schválně vynechali záporný kořen, protože víme, že je to ve skutečnosti exponenciála $3^x$, která nemůže nabývat záporných hodnot. Pokud to člověku nedojde hned, není problém. Tento poznatek se později stejně ukáže při zpětné substituci, kdy člověk formálně dostane logaritmus ze záporného čísla.
+
+        \end{enumerate}
+
+        \subsection*{Soustavy logaritmických rovnic}
+
+        \begin{enumerate}
+
+            \item \begin{align}
+                \tag{R1}
+                \label{eq:log-system-1-r1}
+                \log\(x^2\) + \log\(y^3\) &= 5,
+            \\
+                \tag{R2}
+                \label{eq:log-system-1-r2}
+                \log(xy) &= 3.
+            \end{align}
+            Opět se potýkáme s něčím novým: soustava logaritmických rovnic. Posnažme se ale nepanikařit, neboť skloubíme-li naše znalosti řešení soustav lineárních rovnic a znalosti řešení rovnic logaritmických, musíme dojít k něčemu kloudnému. Nejprve si ujasněme podmínky.
+            Samozřejmě musíme stanovit podmínky jak pro $x$, tak pro $y$. Z první rovnice nám plyne, že $x \neq 0$ a $y > 0$. Z druhé rovnice můžeme napsat, že musí platit $xy>0$. Tato poslední nerovnost se dá splnit tak, že obě neznámé budou kladné, ale také tak, že obě budou záporné. Pokud však přivedeme do hry podmínky z první rovnice, uvědomíme si, že druhá možnost nepřipadá v úvahu díky podmínce $y > 0$. Musí tedy platit první možnost, a to ta, kdy obě neznámé jsou kladné, tj. $x \in (0,\infty)$, $y \in (0,\infty)$. Elegantněji můžeme podmínku zapsat pomocí kartézského součinu jako $[x,y] \in (0,\infty)\times(0,\infty)$. Nyní k řešení rovnice:
+            \begin{align*}
+                2\log\(x\) + 3\log\(y\) &= 5,
+            \\
+                \log(x) + \log(y) &= 3 \implies \log(x) = 3 - \log(y),
+            \\\rule{4cm}{0.4pt}&\rule{4cm}{0.4pt}\\
+                2\[3 - \log(y)\] + 3\log\(y\) &= 5,
+            \\
+                6 + \log(y) &= 5,
+            \\
+                \log(y) &= -1,
+            \\
+                y &\in \left\{ 10^{-1} \right\}.
+            \end{align*}
+            Vyřešili jsme tedy soustavu dosazovací metodou a zbývá již jen zpět dosadit, abychom získali hodnotu druhé neznámé:
+            \begin{align*}
+                \log(x) &= 3 - \log(y),
+            \\
+                \log(x) &= 3 - \log\(10^{-1}\),
+            \\
+                \log(x) &= 4,
+            \\
+                x &\in \left\{ 10^4 \right\}.
+            \end{align*}
+            Výsledně tedy můžeme psát
+            \begin{align*}
+                [x,y] &\in K = \left\{ \[10^4,10^{-1}\] \right\} \cap \[(0,\infty)\times(0,\infty)\] = \left\{ \[10^4,10^{-1}\] \right\}.
+            \end{align*}
+
+            \item \begin{align}
+                \tag{R1}
+                \label{eq:log-system-2-r1}
+                \log_2^2(2x) - \log_2\(x^2\) + \log_2(y) &= 9,
+            \\
+                \tag{R2}
+                \label{eq:log-system-2-r2}
+                3\log\(x^2\) + \log\(y^2\) &= \log(y) + \log\(x^4\).
+            \end{align}
+            Podmínky: $[x,y] \in (0,\infty)\times(0,\infty)$. Když se na soustavu podívám, je mi jasné, že kvůli kvadrátu logaritmu v první rovnici budeme potřebovat substituci. Máme ale malý problém, že v druhé rovnici je logaritmus o jiném základu. Změna logaritmu je mocné pravidlo, ale pojďme se zkusit obejít bez něj. Z rovnice \ref{eq:log-system-2-r2} se pro její jednoduchost pokusme nejdříve najít vztah mezi neznámými:
+            \begin{align*}
+                3\log\(x^2\) + \log\(y^2\) &= \log(y) + \log\(x^4\),
+            \\
+                6\log(x) + 2\log(y) &= \log(y) + 4\log(x),
+            \\
+                \log(y) &= -2\log(x),
+            \\
+                \log\(y\) &= \log\(x^{-2}\),
+            \\
+                y &= x^{-2}.
+            \end{align*}
+            Dosaďme získaný vztah do rovnice \ref{eq:log-system-2-r1}.
+            \begin{align*}
+                \log_2^2(2x) - \log_2\(x^2\) + \log_2(x^{-2}) &= 9,
+            \\
+                \[ \log_2(2) + \log_2(x) \]^2 - 2\log_2(x) - 2\log_2(x) &= 9,
+            \\
+                \[1+\log_2(x)\]^2 - 4\log_2(x) &= 9, \quad \Big| z \coloneqq \log_2(x)
+            \\
+                (1+z)^2 - 9 - 4z &= 0,
+            \\
+                z^2 - 2z - 8 &= 0,
+            \\
+                (z-4)(z+2) &= 0,
+            \\
+                z &\in \left\{ -2,4 \right\},
+            \\
+                x &\in \left\{ 2^{-2},2^4 \right\}.
+            \end{align*}
+            Jelikož vztah mezi $x$ a $y$ již známe, získání druhé proměnné je jednoduché:
+            \begin{align*}
+                y_1 &= x_1^{-2},
+            &
+                y_2 &= x_2^{-2},
+            \\
+                y_1 &= \(2^{-2}\)^{-2},
+            &
+                y_2 &= \(2^4\)^{-2},
+            \\
+                y_1 &= 2^{4},
+            &
+                y_2 &= 2^{-8}.
+            \end{align*}
+            Všechny výsledky jsou kladné, takže podmínky jsou splněny. Opět můžeme psát výsledné řešení
+            \begin{align*}
+                [x,y] \in K = \left\{ \[2^{-2}, 2^4\], \[2^4, 2^{-8}\] \right\} = \left\{ \[\frac 14, 16\], \[16, \frac{1}{256}\] \right\}.
+            \end{align*}
+
+        \end{enumerate}
+
+        \subsection*{Logaritmické nerovnice}
+
+        \begin{enumerate}
+
+            \item \begin{align*}
+                \log_2(x+1) &< 2.
+            \end{align*}
+            Podmínky: $x \in (-1,\infty)$.
+            \begin{align*}
+                \log_2(x+1) &< \log_2\(4\),
+            \\
+                x+1 &< 4,
+            \\
+                x &< 3,
+            \\
+                x &\in K = (-1,3).
+            \end{align*}
+
+            \item \begin{align*}
+                \log_{1/2}\(2x-1\) &< -1.
+            \end{align*}
+            Podmínky: $x \in (1/2, \infty)$.
+            \begin{align*}
+                \log_{1/2}(2x-1) &< \log_{1/2}(2),
+            \\
+                2x-1 &> 2,
+            \\
+                x &> \frac 32,
+            \\
+                x &\in K = \(\frac 32,\infty\).
+            \end{align*}
+
+            \item \begin{align*}
+                \log_{0,5}\(x\) + \log_{0,5}(x+3) &\geq 2\log_{0,5}(2).
+            \end{align*}
+            Podmínky: $x \in (0,\infty)$.
+            \begin{align*}
+                \log_{1/2}\(x(x+3)\) &\geq \log_{1/2}(4),
+            \\
+                x(x+3) &\leq 4,
+            \\
+                x^2 + 3x - 4 &\leq 0,
+            \\
+                (x+4)(x-1) &\leq 0,
+            \\
+                x &\in [-4,1] \cap (0,\infty),
+            \\
+                x &\in K = (0,1].
+            \end{align*}
+
+        \end{enumerate}
+
+    \section*{15. dubna 2021}
+        
+        \paragraph*{Scio příklad.} Mějme množinu výrazů $X = \left\{ x^2,x^3,(-x)^2,(-x)^3 \right\}$. Rozhodněte o pravdivosti níže uvedených tvrzení.
+        \begin{enumerate}[label=(\alph*)]
+            \item Existují alespoň dvě různá $x \in \R$, pro která je hodnota výrazu $x^2$ stejná jako hodnota výrazu $x^3$.
+
+            \item Existuje takové číslo $x \in \R$, pro které je hodnota výrazu $(-x)^3$ nejvyšší z hodnot výrazů v $X$.
+            
+            \item Existuje takové číslo $x \in \R$, pro které mají všechny čtyři výrazy z $X$ stejnou hodnotu.
+            
+            \item Existuje takové číslo $x \in \R$, pro které je hodnota výrazu $x^3$ nejnižší z hodnot výrazů v $X$.
+            
+            \item Existuje takové kladné číslo $x \in \R$, pro které platí, že hodnota výrazu $x^2$ je větší, než hodnota výrazu $x^3$.
+        \end{enumerate}
+
+        \paragraph*{Řešení.} Množinu výrazů můžeme přepsat jako $X = \left\{ x^2,x^3,x^2,-x^3 \right\} = \left\{ x^2,x^3,-x^3 \right\}$.
+        \begin{enumerate}[label=(\alph*)]
+            \item \begin{align*}
+                x^2 &= x^3,
+            \\
+                x^2 - x^3 &= 0,
+            \\
+                x^2(1-x) &= 0,
+            \end{align*}
+            $x_1 = 0$, $x_2 = 1$. Pravda.
+
+            \item $(-x)^3 = (-x)(-x)(-x) = -x^3$
+            \begin{align*}
+                -x^3 &\geq x^2,
+            &
+                -x^3 &\geq x^3,
+            \\
+                -x &\geq 1,
+            &
+                -2x^3 &\geq 0,
+            \\
+                x &\leq -1,
+            &
+                x &\leq 0.
+            \end{align*}
+            $x \in (-\infty,-1] \cup \{0\}$. Pravda.
+
+            \item $x=0$. Pravda.
+            
+            \item \begin{align*}
+                x^3 &\leq x^2,
+            &
+                x^3 &\leq -x^3,
+            \\
+                x &\leq 1,
+            &
+                2x^3 &\leq 0,
+            \\
+                x &\leq 1,
+            &
+                x &\leq 0.
+            \end{align*}
+            $x \in (-\infty,0]$. Pravda.
+
+            \item \begin{align*}
+                x^2 &> x^3,
+            \\
+                x^2(1-x) &> 0,
+            \end{align*}
+            $x^2(1-x) > 0 \iff \[ (x^2>0 \wedge 1-x > 0) \vee (x^2<0 \wedge 1-x < 0) \]$
+            \begin{enumerate}[label=(\roman*)]
+                \item $x^2>0 \wedge 1-x > 0$:
+                \begin{align*}
+                    x^2 &> 0,
+                &
+                    1-x &> 0,
+                \\
+                    x &\in \R \setminus\{0\},
+                &
+                    x &< 1.
+                \end{align*}
+                $x \in K_1 = (-\infty,0) \cup (0,1)$.
+
+                \item $x^2<0 \wedge 1-x < 0$:
+                \begin{align*}
+                    x^2 &< 0,
+                &
+                    1-x &< 0,
+                \\
+                    x &\in \emptyset,
+                &
+                    x &> 1.
+                \end{align*}
+                $x \in K_2 = \emptyset$.
+            \end{enumerate}
+            $x \in \[ K_1 \cup K_2 \] \cap (0,\infty) = \[(-\infty,0) \cup (0,1)\] \cap (0,\infty) = (0,1)$. Pravda.
+        \end{enumerate}
+        
+    \section*{4. května 2021}
+        \subsection*{Goniometrické funkce a rovnice}
+
+        \begin{enumerate}
+            
+            \item \begin{align*}
+                2\sin^2(x) + 3\sin(x) - 2 &= 0, \quad \Big| t \coloneqq \sin(x)
+            \\
+                2t^2 + 3t - 2 &= 0,
+            \\
+                t_{1,2} &= \frac{-3 \pm \sqrt{9+4\cdot 2\cdot 2}}{2\cdot 2},
+            \\
+                t_{1,2} &= \frac{-3\pm 5}{4},
+            \\
+                t &\in \left\{ \frac 12, -2 \right\},
+            \\
+                \sin(x) &\in \left\{ \frac 12 \right\},
+            \\
+                x &\in \left\{ \frac \pi 6 + 2k\pi, \frac{5\pi}{6} + 2k\pi \mid k \in \Z \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \sin\(2x - \frac \pi 3\) &= \sin\(\frac \pi 3 - 2x\) + 1,
+            \\
+                \sin\(2x - \frac \pi 3\) &= \sin\[-\(2x - \frac \pi 3\)\] + 1, \quad \Big| \sin(-x) = -\sin(x)
+            \\
+                \sin\(2x - \frac \pi 3\) &= -\sin\(2x - \frac \pi 3\) + 1,
+            \\
+                2\sin\(2x - \frac \pi 3\) &= 1,
+            \\
+                \sin\(2x - \frac \pi 3\) &= \frac 12, \quad \Big| u \coloneqq 2x - \frac \pi 3
+            \\
+                \sin(u) &= \frac 12,
+            \\
+                u &\in \left\{ \frac \pi 6 + 2k\pi, \frac{5\pi}{6} + 2k\pi \mid k \in \Z \right\}.
+            \end{align*}
+            \begin{align*}
+                u_{1,k} &= \frac \pi 6 + 2k\pi,
+            &
+                u_{2,k} &= \frac{5\pi}{6} + 2k\pi,
+            \\
+                2x_{1,k} - \frac \pi 3 &= \frac \pi 6 + 2k\pi,
+            &
+                2x_{2,k} - \frac \pi 3 &= \frac{5\pi}{6} + 2k\pi,
+            \\
+                2x_{1,k} &= \frac \pi 6 + 2k\pi + \frac \pi 3,
+            &
+                2x_{2,k} &= \frac{5\pi}{6} + 2k\pi + \frac \pi 3,
+            \\
+                2x_{1,k} &= \frac \pi 2 + 2k\pi,
+            &
+                2x_{2,k} &= \frac{7\pi}{6} + 2k\pi,
+            \\
+                x_{1,k} &= \frac \pi 4 + k\pi,
+            &
+                x_{2,k} &= \frac{7\pi}{12} + k\pi,
+            \end{align*}
+            souhrnně
+            \begin{align*}
+                x &\in \left\{ \frac \pi 4 + k\pi, \frac{7\pi}{12} + k\pi \mid k \in \Z \right\}.
+            \end{align*}
+
+            \item Urči definiční obor výrazu a uprav jej:
+            \begin{align*}
+                \frac{1+\cot^2(x)}{1+\tan^2(x)}.
+            \end{align*}
+            Podmínky:\begin{align*}
+                \tan^2(x) &\neq -1,
+            &
+                x &\in D(\tan),
+            &
+                x &\in D(\cot(x))
+            \\
+                x &\in D(\tan),
+            &
+                x &\in \R \setminus \left\{ \frac \pi 2 + k\pi \mid k \in \Z \right\},
+            &
+                x &\in \R \setminus \left\{ k\pi \mid k \in \Z \right\}.
+            \end{align*}
+            První podmínka není omezující, neboť $\forall x \in D(\tan), \; \tan^2(x) \geq 0$, tj. celkově tedy z podmínek úlohy dostáváme definiční obor $\R \setminus \left\{ \frac \pi 2 + k\pi, k\pi \mid k \in \Z \right\}$.
+            \begin{align*}
+                \frac{1+\cot^2(x)}{1+\tan^2(x)} = \frac{1 + \frac{1}{\tan^2(x)}}{1+\tan^2(x)} = \frac{\frac{\tan^2(x) + 1}{\tan^2(x)}}{\frac{1+\tan^2(x)}{1}} = \frac{[\tan^2(x)+1]\cdot 1}{\tan^2(x) [1+\tan^2(x)]} = \frac{1}{\tan^2(x)} = \cot^2(x).
+            \end{align*}
+
+            \item Urči hodnoty všech goniometrických funkcí v bodě $x$, jestliže platí $\sin(x) = 3/5$ a zároveň víme, že $x \in (\pi/2,\pi)$.
+            
+            Kvůli faktu, že je zadána hodnota $\sin(x) = 3/5$, nemůžeme přesně určit hodnotu $x$ \uv{z hlavy}. nejedná se totiž o tabulkovou hodnotu. Budeme si tedy muset poradit pomocí různých goniometrických vzorců tak, abychom si vyjádřili hodnoty ostatních goniometrických funkcí ze znalosti sinu. Pomocí základní unitární identity goniometrie, jež je přepisem Pythagorovy věty pro jednotkovou kružnici například můžeme napsat
+            \begin{align*}
+                \sin^2(x) + \cos^2(x) &= 1,
+            \\
+                \cos^2(x) &= 1 - \sin^2(x), \quad \Big| \sqrt{}
+            \\
+                \left| \cos(x) \right| &= \sqrt{1 - \sin^2(x)},
+            \end{align*}
+            Zde přichází na scénu velice důležitá informace ze zadání, a to ta, že $x \in (\pi/2/\pi)$. Ze znalosti průběhu funkce $\cos$ tedy můžeme usoudit, že hodnota $\cos(x)$ je na tomto intervalu záporná. Proto můžeme při díky omezení na tento interval odstranit absolutní hodnotu a nahradit ji záporným znaménkem, tedy
+            \begin{align*}
+                \cos(x) &= -\sqrt{1 - \sin^2(x)},
+            \end{align*}
+            Obdrželi jsme tedy na intervalu $(\pi/2,\pi)$ jednoznačná vztah mezi funkcemi $\sin$ a $cos$, pomocí něhož lze již získat hodnotu funkce $\cos$:
+            \begin{align*}
+                \cos(x) &= -\sqrt{1 - \(\frac 35\)^2} = - \sqrt{1 - \frac{9}{25}} = - \sqrt{\frac{16}{25}} = - \frac{4}{5}.
+            \end{align*}
+            Hodnoty $\tan(x)$ a $\cot(x)$ jsou již velice jednoduché díky jejich definici pomocí sinu a kosinu.
+            \begin{align*}
+                \tan(x) &= \frac{\sin(x)}{\cos(x)} = \frac{3/5}{-4/5} = -\frac 34,
+            &
+                \cot(x) &= \frac{1}{\tan(x)} = - \frac 43.
+            \end{align*}
+            
+            \item Urči hodnoty všech goniometrických funkcí v bodě $x$, jestliže platí $\sin(x) = \pi/2$ a zároveň víme, že $x \in (\pi/2,\pi)$.
+            \noindent%
+            Chyták: $\pi/2 \not\in H(\sin(x))$. Úloha tedy již ze zadání nemá řešení.
+
+            \item Urči hodnoty všech goniometrických funkcí v bodě $x$, jestliže platí $\cot(x) = \sqrt 2$ a zároveň víme, že $x \in (0,\pi/2)$.
+            \begin{align*}
+                \tan(x) = \frac{1}{\cot(x)} = \frac{1}{\sqrt 2} = \frac{\sqrt 2}{2},
+            \end{align*}
+            Nyní se nacházíme opět v nepříjemné situaci, neboť jsme jednoduše získali hodnoty tangenty a kotangenty, ale v definici obou z nich se nachází $\sin$ a $\cos$ najednou. První, v každém případě nepříjemnější, možností je si napsat z definice hodnoty $\tan(x)$ a $\cot(x)$ a dostat tak soustavu dvou rovnic o dvou neznámých. My však zvolíme alternativní, intrikovanější, způsob, a to pomocí kreativního triku: 
+            \begin{align*}
+                \sin^2(x) + \cos^2(x) &= 1 \quad \Big| : \cos^2(x)
+            \\
+                \frac{\sin^2(x)}{\cos^2(x)} + 1 &= \frac{1}{\cos^2(x)},
+            \\
+                \tan^2(x) + 1 &= \frac{1}{\cos^2(x)},
+            \\
+                \cos^2(x) &= \frac{1}{\tan^2(x) + 1}, \quad \Big| \sqrt{}
+            \\
+                |\cos(x)| &= \frac{1}{\sqrt{\tan^2(x) + 1}},
+            \\
+                \cos(x) &= \frac{1}{\sqrt{\tan^2(x) + 1}},
+            \end{align*}
+            kde při odstranění absolutní hodnoty z předposlední rovnosti byla samozřejmě opět využita informace o redukci definičního oboru úlohy, na němž nabývá funkce $\cos$ tentokrát kladných hodnot. Zbývá tedy již jen dořešit numerickou hodnotu $\cos(x)$ a $\sin(x)$, což je již snadné.
+            \begin{align*}
+                \cos(x) &= \frac{1}{\sqrt{1/2 + 1}} = \frac{1}{\sqrt{3/2}} = \sqrt{\frac{2}{3}},
+            \\
+                \sin(x) &= \tan(x) \cos(x) = \frac{1}{\sqrt 2} \sqrt{\frac 23} = \frac{1}{\sqrt 3} = \frac{\sqrt 3}{3}.
+            \end{align*}
+
+        \end{enumerate}
+
+    \section*{6. května 2021}
+        
+        \subsection*{Goniometrické funkce a rovnice - pokračování}
+        \begin{enumerate}
+            \item Urči definiční obor rovnosti a ověř:
+            \begin{align*}
+                \frac{\cos(x)}{1+\sin(x)} &= \frac{1+\sin(-x)}{\cos(-x)},
+            \\
+                \frac{\cos(x)}{1+\sin(x)} &= \frac{1-\sin(x)}{\cos(x)}.
+            \end{align*}
+            V prvotní ekvivalentní úpravě výrazu jsme využili parit goniometrických funkcí. Podmínky:
+            \begin{align*}
+                \sin(x) &\neq -1,
+            &
+                \cos(x) &\neq 0,
+            \\
+                x &\not\in \left\{ \frac{3\pi}{2} + 2k\pi | k \in \Z  \right\},
+            &
+                x &\not\in \left\{ \frac{\pi}{2} + k\pi | k \in \Z  \right\},
+            \end{align*}
+            tj. $x \in D(f) = \R \setminus \left\{ \frac{\pi}{2} + k\pi | k \in \Z  \right\}$.
+            \begin{align*}
+                \frac{\cos(x)}{1+\sin(x)} &= \frac{1-\sin(x)}{\cos(x)}, \quad \Big| \cdot [1+\sin(x)]\cos(x)
+            \\
+                \cos^2(x) &= [1-\sin(x)][1+\sin(x)],
+            \\
+                \cos^2(x) &= 1-\sin^2(x),
+            \\
+                \sin^2(x) + \cos^2(x) &= 1.
+            \end{align*}
+            Došli jsme ekvivalentními úpravami k rovnosti, o níž víme, že je splněna vždy, tudíž i originální rovnost je splněna pro všechna $x$ z definičního oboru.
+            
+            \item Urči definiční obor rovnosti a ověř.
+            \begin{align*}
+                \sin^4(x)-\cos^4(x) &= 1-2\cos^2(x),
+            \end{align*}
+            Podmínka je zde triviální: nic nám nevadí, tj. $x \in D(f) = \R$. Stejně jako v předchozím příkladu využijeme klasického vzorce $(a-b)(a+b) = a^2-b^2$, akorát v opačném řízení než je možná někdo zvyklý.
+            \begin{align*}
+                \[\sin^2(x)\]^2 - \[\cos^2(x)\]^2 &= 1-2\cos^2(x),
+            \\
+                \[\sin^2(x) - \cos^2(x)\]\underbrace{\[\sin^2(x) + \cos^2(x)\]}_1 &= 1-2\cos^2(x),
+            \\
+                \sin^2(x) - \cos^2(x) &= 1-2\cos^2(x),
+            \\
+                \sin^2(x) + \cos^2(x) &= 1.
+            \end{align*}
+
+            \item Odvoď součtový vzorec pro $\tan(x \pm y)$.
+            
+            Jako vždy vyjdeme z toho, co již známe. To je v tomto případě znalost součtových vzorců funkcí sin a cos. Během výpočtu bude použit jeden neintuitivní trik (rozšíření zlomku na konci prvního řádku), který je klíčem k odvození.
+            \begin{align*}
+                \tan(x \pm y) &= \frac{\sin(x \pm y)}{\cos(x \pm y)} = \frac{\sin(x)\cos(y) \pm \cos(x)\sin(y)}{\cos(x)\cos(y) \mp \sin(x)\sin(y)} \cdot \frac{\frac{1}{\cos(x)\cos(y)}}{\frac{1}{\cos(x)\cos(y)}} =
+            \\
+                &= \frac{\frac{\sin(x)\cos(y) \pm \cos(x)\sin(y)}{\cos(x)\cos(y)}}{\frac{\cos(x)\cos(y) \mp \sin(x)\sin(y)}{\cos(x)\cos(y)}} = \frac{\frac{\sin(x)}{\cos(x)} \pm \frac{\sin(y)}{\cos(y)}}{1 \mp \frac{\sin(x)}{\cos(x)} \frac{\sin(y)}{\cos(y)}} = \frac{\tan(x) \pm \tan(y)}{1 \mp \tan(x)\tan(y)}.
+            \end{align*}
+            
+            \item Urči přesnou hodnotu $\cos(75^\circ)$.
+            \begin{align*}
+                \cos(75^\circ) &= \cos(30^\circ + 45^\circ) = \cos\(\frac \pi 6 + \frac \pi 4\) = \cos\(\frac \pi 6\)\cos\(\frac \pi 4\) - \sin\(\frac \pi 6\)\sin\(\frac \pi 4\) =
+            \\
+                &= \frac{\sqrt 3}{2} \frac{\sqrt 2}{2} - \frac{1}{2} \frac{\sqrt 2}{2} = \frac{\sqrt 6}{4} - \frac{\sqrt 2}{4} = \frac{\sqrt 6 - \sqrt 2}{4} = \frac{\sqrt 2\(\sqrt 3 - 1\)}{4}.
+            \end{align*}
+            
+            \item Urči přesnou hodnotu $\sin(60^\circ)$.
+            \begin{align*}
+                \sin\(60^\circ\) = \sin\(2\cdot30^\circ\) = \sin\(2 \frac \pi 6\) = 2 \sin\(\frac \pi 6\)\cos\(\frac \pi 6\) = 2 \frac{1}{2} \frac{\sqrt 3}{2} = \frac{\sqrt 3}{2}.
+            \end{align*}
+            
+            \item \begin{align*}
+                \cos\(x+\frac \pi 4\) + \cos\(\frac \pi 4 - x\) &= 1,
+            \\
+                \cos(x)\cos\(\frac \pi 4\) - \sin(x) \sin\(\frac \pi 4\) + \cos\(\frac \pi 4\)\cos(x) + \sin\(\frac \pi 4\)\sin(x) &= 1,
+            \\
+                \frac{\sqrt 2}{2}\cos(x) - \frac{\sqrt 2}{2}\sin(x) + \frac{\sqrt 2}{2}\cos(x) + \frac{\sqrt 2}{2}\sin(x) &= 1,
+            \\
+                \sqrt 2 \cos(x) &= 1,
+            \\
+                \cos(x) &= \frac{1}{\sqrt 2},
+            \\
+                \cos(x) &= \frac{\sqrt 2}{2},
+            \end{align*}
+            tj. $x \in \left\{ \pi/4 + 2k\pi, 7\pi/4 + 2k\pi \mid k \in \Z \right\}$.
+
+            \item \begin{align*}
+                \cos(2x) + \cos(x) &= 0,
+            \\
+                \cos^2(x) - \sin^2(x) + \cos(x) &= 0,
+            \\
+                \cos^2(x) - \[1 - \cos^2(x)\] + \cos(x) &= 0,
+            \\
+                \cos^2(x) - 1 + \cos^2(x) + \cos(x) &= 0,
+            \\
+                2\cos^2(x) + \cos(x) - 1 &= 0, \quad \Big| t \coloneqq \cos(x)
+            \\
+                2t^2 + t - 1 &= 0,
+            \\
+                t_{1,2} &= \frac{-1 \pm \sqrt{1 + 4\cdot 2}}{4},
+            \\
+                t_{1,2} &= \frac{-1 \pm 3}{4},
+            \end{align*}
+            \begin{align*}
+                t_1 &= \frac 12,
+            &
+                t_2 &= -1,
+            \\
+                \cos(x_1) &= \frac 12,
+            &
+                \cos(x_2) &= -1,
+            \\
+                x_1 &\in \left\{ \frac \pi 3 + 2k\pi, \frac{5\pi}{3} + 2k\pi \mid k \in \Z \right\},
+            &
+                x_2 &\in \left\{ \pi + 2k\pi \mid k \in \Z \right\},
+            \end{align*}
+            tj. $x \in \left\{ \pi/3 + 2k\pi, 5\pi/3 + 2k\pi, (2k+1)\pi \mid k \in \Z \right\}$
+
+            \item \begin{align*}
+                \sin(6x) + 2\cos^2(3x) &= 0,
+            \\
+                \sin(2\cdot 3x) + 2\cos^2(3x) &= 0,
+            \\
+                2\sin(3x)\cos(3x) + 2\cos^2(3x) &= 0,
+            \\
+                2\cos(3x)\[\sin(3x) + \cos(3x)\] &= 0,
+            \end{align*}
+            Redukovali jsme tedy původní složitou rovnici (polynom druhého řádu nad goniometrickými funkcemi) na součin dvou jednodušších (již prvního řádu), protože pokus má být výše uvedená levá strana nulová, musí být alespoň jeden z činitelů součinu nulový. Můžeme tedy řešit separátně rovnice
+            \begin{align*}
+                \cos(3x) &= 0, \quad \Big| t \coloneqq 3x
+            &
+                \sin(3x) + \cos(3x) &= 0, \quad \Big| t \coloneqq 3x
+            \\
+                \cos(t) &= 0,
+            &
+                \sin(t) + \cos(t) &= 0,
+            \\
+                t &\in \left\{ \frac \pi 2 + k\pi \mid k \in \Z\right\},
+            &
+                \sin(t) &= -\cos(t),
+            \\
+                &
+            &
+                \tan(t) &= -1,
+            \\
+                &
+            &
+                t &\in \left\{ - \frac \pi 4 + k\pi \mid k \in \Z \right\},
+            \\
+                3x &\in \left\{\frac \pi 2 + k\pi \mid k \in \Z\right\},
+            &
+                3x &\in \left\{ - \frac \pi 4 + k\pi \mid k \in \Z \right\},
+            \\
+                x &\in \left\{\frac \pi 6 + k\frac \pi 3 \mid k \in \Z\right\},
+            &
+                x &\in \left\{ - \frac{\pi}{12} + k\frac \pi 3 \mid k \in \Z \right\}.
+            \end{align*}
+            Díky tomu, že před rozdělením do dvou rovnic jsme řekli, že chceme nulovost buď prvního činitele nebo druhého, je výsledkem sjednocení obou řešení. Výsledně tedy můžeme psát
+            \begin{align*}
+                x &\in \left\{\pi/6 + k\pi/3 \mid k \in \Z\right\} \cup \left\{ -\pi/12 + k\pi/3 \mid k \in \Z \right\}
+            \\
+                x &\in \left\{ -\pi/12 + k\pi/3, \pi/6 + k\pi/3 \mid k \in \Z \right\}.
+            \end{align*}
+
+            \item \begin{align*}
+                \tan(x) + \cot(x) &= 4\cos(2x),
+            \\
+                \frac{\sin(x)}{\cos(x)} + \frac{\cos(x)}{\sin(x)} &= 4\cos(2x), \quad \Big| \cdot \cos(x)\sin(x)
+            \\
+                \sin^2(x) + \cos^2(x) &= 4\cos(2x)\sin(x)\cos(x),
+            \\
+                1 &= 2\cos(2x) \cdot 2\sin(x) \cos(x),
+            \\
+                1 &= 2\cos(2x)\sin(2x),
+            \\
+                1 &= \sin(4x),
+            \\
+                4x &\in \left\{ \frac \pi 2 + 2k\pi \mid k \in \Z \right\},
+            \\
+                x &\in \left\{ \frac \pi 8 + k \frac \pi 2 \mid k \in \Z \right\}.
+            \end{align*}
+
+            \item Urči přesnou hodnotu $\cos\(\pi/12\)$.
+            \begin{align*}
+                \cos\(\frac{\pi}{12}\) = \cos\(\frac{\pi/6}{2}\).
+            \end{align*}
+            Nabízí se vzorec pro kosinus polovičního úhlu, tj.
+            \begin{align*}
+                \left| \cos\(\frac{\pi/6}2\) \right| &= \sqrt{\frac{1+\cos(\pi/6)}{2}} = \sqrt{\frac{1+\cos(\pi/6)}{2}} = \sqrt{\frac{1+\sqrt 3/2}{2}} = \sqrt{\frac{2+\sqrt 3}{4}}.
+            \end{align*}
+            Zbývá jen určit znaménko. Jelikož víme, že $\pi/12 \in (0,\pi/2)$, kde funkce cos nabývá kladných hodnot, bude i $\cos(\pi/12) > 0$, tj.
+            \begin{align*}
+                \cos\(\frac{\pi}{12}\) = \sqrt{\frac{2+\sqrt 3}{4}}.
+            \end{align*}
+
+            \item \begin{align*}
+                \sqrt 3 \sin\(\frac x2\) - \sin(x) &= 0, \quad \Big| t \coloneqq x/2
+            \\
+                \sqrt 3 \sin(t) - \sin(2t) &= 0,
+            \\
+                \sqrt 3 \sin(t) - 2\sin(t)\cos(t) &= 0,
+            \\
+                \sin(t)\[\sqrt 3 - 2\cos(t)\] &= 0,
+            \end{align*}
+            \begin{align*}
+                \sin(t) &= 0,
+            &
+                2\cos(t) &= \sqrt 3,
+            \\
+                &
+            &
+                \cos(t) &= \frac{\sqrt 3}{2},
+            \\
+                t &\in \left\{ k\pi \mid k \in \Z \right\},
+            &
+                t &\in \left\{ \frac{\pi}{6} + 2k\pi, \frac{11\pi}{6} + 2k\pi \mid k \in \Z \right\},
+            \end{align*}
+            \begin{align*}
+                t &\in \left\{ k\pi, \frac{\pi}{6} + 2k\pi, \frac{11\pi}{6} + 2k\pi \mid k \in \Z \right\},
+            \\
+                \frac x2 &\in \left\{ k\pi, \frac{\pi}{6} + 2k\pi, \frac{11\pi}{6} + 2k\pi \mid k \in \Z \right\},
+            \\
+                x &\in \left\{ 2k\pi, \frac{\pi}{3} + 4k\pi, \frac{11\pi}{3} + 4k\pi \mid k \in \Z \right\}.
+            \end{align*}
+
+            \item Weierstrassova substituce $t \coloneqq \tan(x/2)$.
+            
+            Jako poslední zastávku během průletu problematikou goniometrických funkcí si ukážeme tzv. Weierstrassovu substituci,%
+                \footnote{Ne vždy se jí tak říká. Mnohdy ji najdete na internetu či v literatuře pouze jako substituci $\tan(x/2)$ či podobně.}
+            kdy pro nás bude zajímavý úkol najít způsob, jak libovolnou z goniometrických funkcí vyjádřit pomocí $\tan(x/2)$. Aplikací získaného výsledku je pak možnost tento výraz substituovat a pracovat s kombinacemi goniometrických funkcí jako s obyčejnými racionálními funkcemi, což je velice výhodná praktika v integrálním počtu. Samozřejmě se opět jedná pouze o krátkou hříčku s goniometrickými vzorci:
+            \begin{enumerate}[label=(\alph*)]
+                \item \begin{align*}
+                    \sin(x) &= \sin\(2\frac x2\) = 2\sin\(\frac x2\)\cos\(\frac x2\) = \frac{2\sin\(\frac x2\)\cos\(\frac x2\)}{1} =
+                \\
+                    &= \frac{2\sin\(\frac x2\)\cos\(\frac x2\)}{\sin^2\(\frac x2\) + \cos^2\(\frac x2\)} \cdot \frac{\frac{1}{\cos^2\(\frac x2\)}}{\frac{1}{\cos^2\(\frac x2\)}} = \frac{2\frac{\sin\(\frac x2\)}{\cos\(\frac x2\)}}{\frac{\sin^2\(\frac x2\)}{\cos^2\(\frac x2\)} + 1} = \frac{2\tan\(\frac x2\)}{1+\tan^2\(\frac x2\)},
+                \end{align*}
+
+                \item \begin{align*}
+                    \cos(x) &= \cos\(2 \frac x2\) = \cos^2\(\frac x2\) - \sin^2\(\frac x2\) = \frac{\cos^2\(\frac x2\) - \sin^2\(\frac x2\)}{1} =
+                \\
+                    &= \frac{\cos^2\(\frac x2\) - \sin^2\(\frac x2\)}{\sin^2(x) + \cos^2(x)} \cdot \frac{\frac{1}{\cos^2\(\frac x2\)}}{\frac{1}{\cos^2\(\frac x2\)}} = \frac{1 - \frac{\sin^2\(\frac x2\)}{\cos^2\(\frac x2\)}}{\frac{\sin^2\(\frac x2\)}{\cos^2\(\frac x2\)} + 1} = \frac{1 - \tan^2\(\frac x2\)}{1 + \tan^2\(\frac x2\)}.
+                \end{align*}
+
+                \item \begin{align*}
+                    \tan(x) &= \frac{\sin(x)}{\cos(x)} = \frac{\frac{2\tan\(\frac x2\)}{1+\tan^2\(\frac x2\)}}{\frac{1-\tan^2\(\frac x2\)}{1+\tan^2\(\frac x2\)}} = \frac{2\tan\(\frac x2\)}{1-\tan^2\(\frac x2\)},
+                \end{align*}
+
+                \item \begin{align*}
+                    \cot(x) = \frac{1}{\tan(x)} = \frac{1 - \tan^2\(\frac x2\)}{2\tan\(\frac x2\)}.
+                \end{align*}
+            \end{enumerate}
+        \end{enumerate}
+
+    \section*{27. května 2021}
+
+        \subsubsection*{Rovnice v oboru komplexních čísel (lineární, nelineární a binomické).}
+
+        \begin{enumerate}
+
+            \item Nalezněte řešení pro $x \in \C$. \begin{align*}
+                \frac{x+i}{2x+1} &= \frac{2x-2}{4x-3i}, \quad \Big| \cdot (2x+1)(4x-3i)
+            \\
+                (x+i)(4x-3i) &= (2x-2)(2x+1),
+            \\
+                4x^2 - i3x + i4x + 3 &= 4x^2 + 2x - 4x - 2,
+            \\
+                2x + ix &= -5,
+            \\
+                (2+i)x &= -5,
+            \\
+                x &= -\frac{5}{2+i}.
+            \end{align*}
+            Jako dobrovolný úkol můžeme naleznout algebraický tvar výsledku:
+            \begin{align*}
+                x = -\frac{5}{2+i} \cdot \frac{2-i}{2-i} = -\frac{10-5i}{4+1} = -2 + i.
+            \end{align*}
+
+            \item Nalezněte řešení pro $z, \, w \in \C$. \begin{align*}
+                z - 2w &= 1 - 4i,
+            \\
+                iz + (2-i)w &= 5 + 4i.
+            \end{align*}
+            Budeme postupovat jako u reálných čísel: vyjádření $z = 2w + 1 - 4i$ a dosazení.
+            \begin{align*}
+                i(2w + 1 - 4i) + (2-i)w &= 5 + 4i,
+            \\
+                i2w + i + 4 + 2w - iw &= 5 + 4i,
+            \\
+                2w + iw &= 1 + 3i,
+            \\
+                w &= \frac{1+3i}{2+i} = \dots = 1+i.
+            \end{align*}
+            Pro získání druhé proměnné opět dosadíme do vyjádření pro $z$.
+            \begin{align*}
+                z = 2w + 1 - 4i = z = 2(1+i) + 1 - 4i = 2 + 2i + 1 - 4i = 3 - 2i.
+            \end{align*}
+
+            \item Řešte pro $z \in \C$. \begin{align*}
+                z + |z| &= 2 + i.
+            \end{align*}
+            Napišme, že $z = a + ib$. Potom
+            \begin{align*}
+                a + ib + \sqrt{a^2 + b^2} &= 2 + i,
+            \\
+                \[a + \sqrt{a^2 + b^2}\] + ib &= 2 + i.
+            \end{align*}
+            Pro rovnost dvou komplexních čísel se nám musí rovnat reálná i imaginární část. Z rovnosti imaginárních částí můžeme usoudít, že $b = 1$. Pro $a$ potom platí
+            \begin{align*}
+                a + \sqrt{a^2 + 1} &= 2,
+            \\
+                \sqrt{a^2 + 1} &= 2 - a, \quad \Big| ^2
+            \\
+                a^2 + 1 &= (2-a)^2,
+            \\
+                a^2 + 1 &= 4 - 4a + a^2,
+            \\
+                a &= \frac 34.
+            \end{align*}
+            Celkově potom získáváme $z = a + ib = 3/4 + i$. Zkouška kvůli sudému mocnění není třeba, neboť můžeme s výslednou znalostí $a = 3/4$ rozmyslet, že ve čtvrtém řádku od konce, kde k neekvivalentní úpravě dochází, aplikujeme kvadrát na rovnost dvou dozajista kladných čísel. Úprava je tak jednoznačná, a tedy ekvivalentní.
+
+            \item \begin{align*}
+                |z+1| + z &= 3 - 2i,
+            \\
+                |a+1 + ib| + a + ib &= 3 - 2i,
+            \\
+                \sqrt{(a+1)^2 + b^2} + a + ib &= 3-2i,
+            \end{align*}
+            tj. $b = -2$. Potom
+            \begin{align*}
+                \sqrt{a^2 + 2a + 1 + 4} + a &= 3,
+            \\
+                \sqrt{a^2 + 2a + 1 + 4} &= 3 - a, \Big|^2
+            \\
+                a^2 + 2a + 1 + 4 &= 9 - 6a + a^2,
+            \\
+                8a &= 4,
+            \\
+                a &= \frac 12,
+            \end{align*}
+            tzn. $z = 1/2 - 2i$. Pro absenci zkoušky můžeme replikovat argument z předchozího příkladu.
+
+            \item \begin{align*}
+                x^2 + 4x + 5 &= 0,
+            \\
+                D &= 16 - 4\cdot 5 = -4 < 0,
+            \\
+                \sqrt D &= \sqrt{4i^2} = 2i,
+            \\
+                x_{1,2} &= \frac{-4 \pm 2i}{2} = -2 \pm i.
+            \end{align*}
+
+            \item Binomické rovnice: Rovnice ve tvaru $x^n - a = 0$, kde $a \in \C$, $n \in \N$, $n > 1$, například
+            \begin{align*}
+                x^4 - 1 &= 0.
+            \end{align*}
+            Nejprve úlohu promysleme v obecné rovině: pro libovolné komplexní číslo $x$ existuje goniometrický tvar $x = |x|\[\cos(\varphi_x) + i\sin(\varphi_x)\]$. Moiverova věta potom praví
+            \begin{align*}
+                x^n &= |x|^n\[\cos(n\varphi_x) + i\sin\(n\varphi_x\)\].
+            \end{align*}
+            Jelikož v úloze obecně platí, že $a \in \C$, můžeme psát
+            \begin{align*}
+                x^n - a &= 0,
+            \\
+                x^n &= a,
+            \\
+                |x|^n\[\cos(n\varphi_x) + i\sin\(n\varphi_x\)\] &= |a|\[\cos\(\varphi_a\) + i\sin(\varphi_a)\],
+            \\
+                \left| x_{k} \right|^n\[\cos\(n\varphi_{x_k}\) + i\sin\(n\varphi_{x_k}\)\] &\in \left\{ |a|\[\cos\(\varphi_a + 2k\pi\) + i\sin(\varphi_a + 2k\pi)\] \mid k \in \Z \right\},
+            \end{align*}
+            kde poslední úprava vznikla z $2\pi$-periodičnosti goniometrických funkcí.%
+                \footnote{Formálně je také uvedeno, že pro každé $k$ získáváme jiné číslo, i když momentálně jsou samozřejmě pro všechna $k$ čísla stejná. Tento fakt je samozřejmě naznačen množinou.}
+            V takové rovnosti ovšem musí platit, že se rovnají jak absolutní hodnoty, tak argumenty, neboli musí platit
+            \begin{align*}
+                \left| x_k \right|^n &= |a|,
+            &
+                n \varphi_{x_k} &= \varphi_a + 2k\pi,
+            \\
+                \left| x_k \right| &= \sqrt[n]{|a|},
+            &
+                \varphi_{x_k} &= \frac{\varphi_a + 2k\pi}{n}
+            \end{align*}
+
+            Vraťme se tedy k příkladu: $n = 4$ a $a = 1$, tedy $\varphi_a = 0$ a $|a| = 1$. Pišme tedy
+            \begin{align*}
+                |x| &= \sqrt[4]{1},
+            &
+                \varphi_x &= \frac{0+2k\pi}{4},
+            \\
+                |x| &= 1,
+            &
+                \varphi_x &= k \frac \pi 2,
+            \end{align*}
+            kde $k \in \Z$. Pro výsledek můžeme psát
+            \begin{align*}
+                x &\in \left\{\cos\(k \frac \pi 2\) + i\sin\(k \frac \pi 2\) \mid k \in \Z \right\},
+            \\
+                x &\in \left\{ \cos(0) + i \sin(0), \cos(\pi/2) + i \sin(\pi/2), \cos(\pi) + i \sin(\pi), \cos(3\pi/2) + i \sin(3\pi/2) \right\},
+            \\
+                x &\in \left\{ 1, i, -1, -i \right\}.
+            \end{align*}
+
+        \end{enumerate}
+\newpage
+    \section*{3/6/2021}
+        \subsection*{Završení komplexních čísel}
+            \begin{enumerate}
+
+                \item Nalezněte algebraický tvar komplexního čísla
+                \begin{align*}
+                    z = \frac{1+i}{1+2i}.
+                \end{align*}
+
+                \begin{align*}
+                    z = \frac{1+i}{1+2i} \cdot \frac{1-2i}{1-2i} = \frac{(1+i)(1-2i)}{1^2 + 2^2} = \frac{1-2i+i\overbrace{-2i^2}^{+2}}{5} = \frac{3-i}{5} = \frac 35 - \frac 15 i.
+                \end{align*}
+
+                \item Určete $x$ zadané jako
+                \begin{align*}
+                    \frac{3+i}{i} - \frac{2+i}{i-1} + \frac{3-i}{i+1}.
+                \end{align*}
+                \textbf{Poznámka.} Platí
+                \begin{align*}
+                    \frac 1i = \frac 1i \cdot \frac ii = \frac{i}{i^2} = -i.
+                \end{align*}
+                S využitím poznámky
+                \begin{align*}
+                    x &= -i(3+i) - \frac{2+i}{i-1} + \frac{3-i}{i+1} = -3i - i^2 + \frac{2+i}{1-i} + \frac{3-i}{1+i} =
+                \\
+                    &= 1-3i + \frac{(2+i)(1+i) + (3-i)(1-i)}{1^2 + 1^2} = 1 - 3i + \frac{2+2i+i-1 + 3 - 3i - i - 1}{2} =
+                \\
+                    &= 1 - 3i + \frac{3-i}{2} = \frac{2-6i+3-i}{2} = \frac{5 - 7i}{2} = \frac 52 - \frac 72 i.
+                \end{align*}
+
+                \item Zjednodušte výraz \begin{align*}
+                    z &= 5i^{300} - 2i^{700} + 12i^{74} = 5i^{3 \cdot 25 \cdot 4} - 2i^{7 \cdot 25 \cdot 4} + 12i^{2 + 18 \cdot 4} =
+                \\
+                    &= 5\(i^4\)^{3\cdot 25} - 2\(i^4\)^{7\cdot 25} + 12 i^2 \cdot \(i^4\)^{18} = 5 - 2 - 12 = -9.
+                \end{align*}
+
+            \end{enumerate}
+    
+    \section*{8/6/2021}
+        \subsection*{Aritmetická posloupnost}
+            
+            \noindent%
+            Definována jako $\{a_n\}_{n=1}^\infty$, kde platí $\{a_n - a_{n-1}\}_{n=2}^{\infty} = d \in \R$.
+
+            \begin{enumerate}
+
+                \item Urči $x \in \R$ tak, aby čísla $a_1 = x^2 - 5$, $a_2 = x+5$, $a_3 = x^2 + x$ tvořila tři po sobě jdoucí členy aritmetické posloupnosti.
+                
+                \begin{align*}
+                    a_2 - a_1 &= a_3 - a_2,
+                \\
+                    x + 5 - (x^2 - 5) &= x^2 + x - (x+5),
+                \\
+                    x+5-x^2+5 &= x^2+x-x-5,
+                \\
+                    2x^2 - x - 15 &= 0,
+                \\
+                    D &= 1 + 4\cdot 2 \cdot 15,
+                \\
+                    D &= 121,
+                \\
+                    \sqrt D &= 11,
+                \\
+                    x_{1,2} &= \frac{1 \pm 11}{4},
+                \\
+                    x &\in \left\{ -5/2, 3 \right\}.
+                \end{align*}
+
+                \item Urči $a_1$ a $d$ aritmetické posloupnosti, pro kterou platí $a_5 + a_2 = 22$, $a_7 - a_3 = -16$.
+                \begin{align*}
+                    a_5 + a_2 &= 22,
+                \\
+                    a_7 - a_3 &= -16,
+                \\\rule{3cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    a_1 + 4d + a_1 + d &= 22,
+                \\
+                    a_1 + 6d - a_1 - 2d &= -16,
+                \\\rule{3cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    2a_1 + 5d &= 22,
+                \\
+                    4d &= -16, \implies \Aboxed{d = -4}
+                \\\rule{3cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    2a_1 - 20 &= 22,
+                \\
+                    \Aboxed{a_1 &= 21.}
+                \end{align*}
+
+            \end{enumerate}
+
+        \subsection*{Geometrická posloupnost}
+            
+            \noindent%
+            Definována jako $\{a_n\}_{n=1}^\infty$, kde platí $\{a_n/a_{n-1}\}_{n=2}^\infty = q \in \R$.
+
+            \begin{enumerate}
+                \item Urči $a_1$ a $q$ geometrické posloupnosti, pro kterou platí $a_1-a_3 = -16$, $a_1+a_2 = 8$.
+                
+                \begin{align*}
+                    a_1-a_3 &= -16,
+                \\
+                    a_1+a_2 &= 8,
+                \\\rule{3cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    a_1 - a_1 \cdot q^2 &= -16,
+                \\
+                    a_1 + a_1 \cdot q &= 8,
+                \\\rule{3cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    \tag{R1}
+                    a_1(1-q^2) &= -16,
+                \\
+                    \tag{R2}
+                    a_1(1+q) &= 8,
+                \\\rule{3cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    \(\frac{\mathrm R1}{\mathrm R2}\): \qquad \frac{a_1(1-q^2)}{a_1(1+q)} &= -\frac{16}{8},
+                \\
+                    \frac{(1-q)(1+q)}{1+q} &= -2,
+                \\
+                    1-q &= -2,
+                \\
+                    \Aboxed{q &= 3,}
+                \\
+                    (\mathrm R2): \qquad a_1(1+3) &= 8,
+                \\
+                    \Aboxed{a_1 &= 2.}
+                \end{align*}
+
+                \item Délky hran kvádru tvoří tři po sobě jdoucí členy geometrické posloupnosti. Povrch kvádru je 63 cm$^{2}$, součet délek všech hran kvádru je 42.
+                
+                \begin{align*}
+                    2(a_1 a_2 + a_2 a_3 + a_1 a_3) &= 63,
+                \\
+                    4a_1 + 4a_2 + 4a_3 &= 42,
+                \\\rule{4cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    2(a_1^2 q + a_1^2 q^3 + a_1^2 q^2) &= 63,
+                \\
+                    4(a_1+a_1q+a_1q^2) &= 42,
+                \\\rule{4cm}{0.6pt}&\rule{3cm}{0.6pt}\\
+                    \tag{R1}
+                    2a_1^2q(1+q+q^2) &= 63,
+                \\
+                    \tag{R2}
+                    4a_1(1+q+q^2) &= 42 \implies a_1 = \frac{10.5}{1+q+q^2}.
+                \end{align*}
+
+                Zde se nabízí elegantnější řešení: úpravou $(\mathrm R1/\mathrm R2)^3$ získáváme na levé straně uskupení proměnných $a_1^3q^3$, což odpovídá přesně objemu kvádru. Pro mechaničtější řešení poskytující kompletní analýzu problému však můžeme pokračovat ve standardním výpočtu, tj.
+
+                \begin{align*}
+                    \(\mathrm R1\): \qquad 2 \frac{10.5^2}{(1+q+q^2)^2} q(1+q+q^2) &= 63,
+                \\
+                    \frac{220.5q}{1+q+q^2} &= 63, \quad \Big| \cdot (1+q+q^2)
+                \\
+                    220.5q &= 63+63q+63q^2,
+                \\
+                    63q^2 - 157.5q + 63 &= 0,
+                \\
+                    D &= 157.5^2 - 4 \cdot 63^2,
+                \\
+                    D &= 8930.25,
+                \\
+                    \sqrt D &= 94.5,
+                \\
+                    q_{1,2} &= \frac{157.5 \pm 94.5}{126},
+                \\
+                    q &\in \{1/2, 2\},
+                \\
+                    a_1 &\in \left\{ \frac{10.5}{1+1/2+(1/2)^2}, \frac{10.5}{1+2+2^2} \right\},
+                \\
+                    a_1 &\in \{ 6, 3/2 \}, \quad \Big| V = a_1^3 q^3
+                \\
+                    V &\in \{ 6^3 (1/2)^3, (3/2)^3 2^3 \},
+                \\
+                    V &= 27.
+                \end{align*}
+            \end{enumerate}
+\newpage
+            \paragraph*{Příklad.} Kolik nul má číslo $60!$ na konci?
+
+            \paragraph*{Úvaha.} Nechť $m,n \in \N$. Nyní vytvořme jejich součin, tj. číslo $mn$. Toto číslo je dozajista opět přirozené, tj. množina $\N$ je uzavřená na součin. Dále můžeme uvážit, že jediná možnost, aby číslo $mn$ mělo na konci nulu, je, že je to násobek desítky, tj. $mn = 10k$, kde $k$ je opět nějaké přirozené číslo.
+
+            Na základě této úvahy můžeme učinit závěr, že pokud vezmeme součin libovolně mnoha přirozených čísel, spočítáme počet nul na konci jako počet desítek faktorizovatelných ze součinu, např. číslo
+            \begin{align*}
+                4\cdot5\cdot7\cdot15 = 2\cdot2\cdot5\cdot7\cdot3\cdot5 = 10\cdot10\cdot7\cdot3
+            \end{align*}
+            by mělo mít na svém konci dvě nuly, neboť jsme z něj byli schopni faktorizovat dvě desítky. Můžeme ověřit, součin je roven číslu $2100$, tj. má opravdu dvě nuly na konci.
+
+            Problém lze dále zjednodušit na hledání pětek a dvojek, protože to je také jediná možnost, jak v součinu přirozených čísel desítku obdržet. Počet nul je potom roven číslu
+            \begin{align*}
+                \mathcal N_0 = \min\{\operatorname{num}(2),\operatorname{num}(5)\},
+            \end{align*}
+            kde $\operatorname{num}(2)$, resp. $\operatorname{num}(5)$, značí počet faktorizovatelných dvojek, resp. pětek. Operátor min potom vybírá nejmenší číslo z množiny. Důvod, proč takto můžeme spočítat počet nul je opět ten, že toto číslo odpovídá počtu desítek, tj. počet součinů $2\cdot5$, které lze ze zadaného součinu faktorizovat.
+
+            \paragraph*{Řešení.} Číslo $60!$ lze napsat též jako součin $60\cdot59\cdot58\cdot \dots \cdot3\cdot2\cdot1$. To ovšem znamená, že nám stačí spočítat počet dvojek a pětek obsažených v takovém čísle a vybrat z nich to menší. Naše úloha je ovšem ještě jednodušší, neboť nám stačí spočítat počet pětek a prohlásit ho za počet nul na konci. Podkladem pro tuto úvahu je fakt, že v našem součinu je dvojek jistě mnohem více než pětek již jen z faktu, že obsahuje velkou spoustu sudých čísel.
+
+            Nyní jelikož číslo $60!$ rozepsané do součinu obsahuje všechna přirozená čísla do čísla $60$, můžeme pouze počítat násobky pěti, tj. čísla $5,10,15,20,25,30,35,40,45,50$. To je celkem 12 čísel, ale čísla $25$ a $50$ obsahují pětku dvakrát. Výsledkem tedy je, že číslo $60!$ má nakonci 14 nul.
+
+            \begin{align*}
+                \frac 1x + \frac 3y &= 5,
+            \\
+                \frac 2x - \frac 6y &= 6,
+            \end{align*}
+            Substituce: $x' \coloneqq 1/x$ a $y' \coloneqq 1/y$.
+            \begin{align*}
+                \tag{R1}
+                x' + 3y' &= 5,
+            \\
+                \tag{R2}
+                2x' - 6y' &= 6,
+            \\\rule{4cm}{0.6pt}&\rule{2cm}{0.6pt}\\
+                \(2\mathrm R1 + \mathrm R2\): \qquad 4x' &= 16,
+            \\
+                x' &= 4,
+            \\
+                (\mathrm R1): \qquad 4 + 3y' &= 5,
+            \\
+                y' &= \frac 13.
+            \end{align*}
+            Celkově tedy máme
+            \begin{align*}
+                (x',y') &\in \left\{ 4, \frac 13 \right\},
+            \\
+                \(\frac 1x,\frac 1y\) &\in \left\{ 4, \frac 13 \right\},
+            \\
+                \(x,y\) &\in \left\{ \frac 14, 3 \right\}.
+            \end{align*}
+
+
+
+
+
+\end{document}

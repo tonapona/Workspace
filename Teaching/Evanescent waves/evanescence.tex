@@ -1,0 +1,170 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,hmargin=1in,vmargin=1in]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{stddoc}
+\usepackage{siunitx}
+
+\renewcommand\Re{\operatorname{Re}}
+\renewcommand\Im{\operatorname{Im}}
+\newcommand{\fourier}[3]{\mathcal F_{#1} \left[ #2 \right]\left( #3 \right)}
+\newcommand{\ifourier}[3]{\mathcal F^{-1}_{#1} \left[ #2 \right]\left( #3 \right)}
+
+\begin{document}
+
+    \pagenumbering{arabic}
+
+% Hlavička
+    \begin{center}
+        \section*{Elektrodynamická seance o evanescentních vlnách}
+        \vspace{-4mm}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft}
+                \textsc{\today}
+            \end{flushleft}
+        \end{minipage}
+        ~
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushright}
+                \textsc{Martin Šimák}
+            \end{flushright}
+        \end{minipage}
+        \noindent\rule{14.5cm}{0.6pt}
+    \end{center}
+
+    \section{Konsolidace znalostí}
+
+        \paragraph*{Maxwellovy rovnice}
+        \begin{align}
+            \label{eq:divD}
+            \Div \vec D(\vec r, t) &= \rho_{\mathrm{free}}(\vec r, t),
+        \\
+            \label{eq:rotE}
+            \Rot \vec E(\vec r, t) &= - \pder{\vec B}{t}(\vec r, t),
+        \\
+            \label{eq:divB}
+            \Div \vec B(\vec r, t) &= 0,
+        \\
+            \label{eq:rotH}
+            \Rot \vec H(\vec r, t) &= \vec J_{\mathrm{free}}(\vec r, t) + \pder{\vec D}{t}(\vec r, t).
+        \end{align}
+        Nesmíme zapomenout na materiálové vztahy,%
+            \footnote{Dovolil jsem si zahrnout předpoklad nekonečných homogenních materiálů, tzn. permitivita, permeabilita i vodivost jsou vše funkce pouze času a nikoliv polohy.}
+        tj.
+        \begin{align}
+                \vec D(\vec r, t) &= \epsilon(t) \vec E(\vec r, t) + \vec P(\vec r, t),
+            &
+                \vec B(\vec r, t) &= \mu(t) \[\vec H(\vec r, t) + \vec M(\vec r, t)\].
+        \end{align}
+        Někdy se také může hodit Ohmův zákon popisující diferenciální proudovou hustotu v lineárním materiálu indukovanou vnějším elektrickým polem
+        \begin{align}
+            \vec J(\vec r,t) &= \sigma(t) \vec E(\vec r,t).
+        \end{align}
+        Matematicky budeme nadále také využívat Fourierovy transformace
+        \begin{align}
+            \hat f(k_x,t) \equiv \fourier{x}{f(x,t)}{k_x} &= \int_\R f(t,x) e^{-ik_xx} \: \d x,
+        \\
+            f(x,t) \equiv \ifourier{k_x}{\hat f(k_x,t)}{x} &= \frac{1}{2\pi} \int_\R \hat f(k_x,t) e^{ixk_x} \: \d k_x,
+        \end{align}
+        přičemž spodní index u operátoru integrální transformace značí proměnnou, přes kterou transformujeme pro případ funkcí více proměnných. Například tedy budeme psát
+        \begin{align*}
+            \ifourier{k_x,k_y,\omega}{\hat{\vec E}(k_x,k_y,z,\omega)}{x,y,t} &= \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec E}(k_x,k_y,z,\omega) e^{i(k_xx+k_yy+\omega t)} \: \d k_x \d k_y \d\omega.
+        \end{align*}
+
+    \section{Analýza Maxwellových rovnic}
+
+        Budeme-li uvažovat výše uvedený aparát, můžeme například na rovnice \ref{eq:rotE} a \ref{eq:rotH} aplikovat materiálové vztahy (včetně Ohmova zákona) a plnou Fourierovu transformaci (přes všechny 4 proměnné). Získáme tak vztahy
+        \begin{align*}
+            i\vec k \times \hat{\vec E}(\vec k, \omega) &= -i\omega \mu(\omega) \hat{\vec H}(\vec k, \omega),
+        \\
+            i\vec k \times \hat{\vec H}(\vec k, \omega) &= (\sigma(\omega) + i\omega \epsilon(\omega)) \hat{\vec E}(\vec k, \omega).
+        \end{align*}
+        Další úprava může být například ta, že si z první rovnice vyjádřáme $\hat{\vec H}$ a dosadíme do druhé:
+        \begin{align*}
+            i\vec k \times (i\vec k \times \hat{\vec E}(\vec k, \omega)) &= -i\omega\mu(\omega)[\sigma(\omega) + i\omega\epsilon(\omega)] \hat{\vec E}(\vec k, \omega),
+        \\
+            \vec k \times (\vec k \times \hat{\vec E}(\vec k, \omega)) &= i\omega\mu(\omega)[\sigma(\omega) + i\omega\epsilon(\omega)] \hat{\vec E}(\vec k, \omega).
+        \end{align*}
+        Nadále můžeme využít známé \emph{BAC CAB} matematické identity pro úpravu levé strany rovnice a dostáváme tak
+        \begin{align*}
+            \vec k \times (\vec k \times \hat{\vec E}(\vec k, \omega)) &= \underbrace{(\vec k \cdot \hat{\vec E}(\vec k, \omega))}_0 \vec k - k^2 \hat{\vec E}(\vec k, \omega).
+        \end{align*}
+        Výše uvedenou rovnici tedy můžeme napsat jako
+        \begin{align*}
+            -k^2 \hat{\vec E}(\vec k, \omega) &= i\omega\mu(\omega)[\sigma + i\omega\epsilon(\omega)] \hat{\vec E}(\vec k, \omega).
+        \end{align*}
+        Vidíme, že na obou stranách se vyskytuje vektor $\hat{\vec E}$. Skaláry se tedy musí samozeřjmě rovnat a dostáváme tak první důležitý výsledek, a to materiálovou disperzní relaci elektromagnetických vln v lineárních materiálech
+        \begin{align}
+            \label{eq:disperze}
+            \Aboxed{k^2 &= -i\omega\mu(\omega)[\sigma + i\omega\epsilon(\omega)].}
+        \end{align}
+        Analogickou manipulací s Maxwellovými rovnicemi samozřejmě také můžeme dostat přímočaré relace mezi veličinami $\hat{\vec E}$ a $\hat{\vec H}$. Konkrétně
+        \begin{align}
+            \hat{\vec E}(\vec k, \omega) &= \frac{\vec k}{\omega \epsilon(\omega) - i\sigma(\omega)} \times \hat{\vec H}(\vec k, \omega),
+        \\
+            \hat{\vec H}(\vec k, \omega) &= -\frac{\vec k}{\omega \mu(\omega)} \times \hat{\vec E}(\vec k, \omega).
+        \end{align}
+
+    \section{Evanescentní vlny}
+        
+        Z předchozího jsme zjistili, že složky elektromagnetických vln jsou ve frekvenční doméně velice specificky svázány a že vektory $\vec k, \hat{\vec H}$ a $\hat{\vec E}$ jsou na sebe navzájem kolmé (to odpovídá, neboť jsme vlastně obecnou elektromagnetickou vlnu Fourierovsky rozložili na superpozici rovinných vln). Taktéž jsme mimo jiné došli ke specifickému vyjádření vlnového vektoru $\vec k$ pomocí úhlové frekvence $\omega$. To ale znamená, že vektorové funkce $\hat{\vec E}$ a $\hat{\vec H}$ nejsou ve skutečnosti funkce čtyř nezávislých proměnných, neboť můžeme jednu eliminovat.%
+        \footnote{Matematicky jde o aplikaci věty o implicitní funkci, která nám tuto manipulaci dovoluje alespoň lokálně na okolí zkoumaného bodu funkce.}
+        Pojďme například fixovat složku vlnového vektoru $k_z$ (standardní volba, lze volit jakoukoli jinou), tj.
+        \begin{align*}
+            k_z^2 &= k^2 - k_x^2 - k_y^2,
+        \\
+            k_z &= \pm \sqrt{k^2 - k_x^2 - k_y^2},
+        \end{align*}
+        kde $k^2$ je dříve odvozený vztah \ref{eq:disperze}. Narazili jsme na duální řešení, a tak nadále budeme psát místo vektoru $\hat{\vec F}$ lineární kombinaci $\hat{\vec F}^+ + \hat{\vec F}^-$ odpovídající těmto řešením, kde index $\pm$ koresponduje volbě $k_z$ a $\hat{\vec F}$ je zástupný symbol pro $\hat{\vec E}$ nebo $\hat{\vec H}$, neboť následující odvození se týká libovolné z těchto veličin.
+
+        Pro vyjádření veličiny $\vec F$ stačí samozejmě aplikovat inverzní Fourierovu transformaci na výše uvedenou lineární kombinaci řešení ve frekvenční doméně, tentokrát již jen přes tři proměnné, neboť jednu jsme \uv{fixovali} na začátku této sekce. Můžeme tedy psát
+        \begin{align*}
+            \vec F(\vec r, t) &= \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec F}^+(k_x,k_y,\omega) e^{i(k_xx+k_yy+\omega t)} e^{ik_z z} \: \d k_x \d k_y \d \omega +
+        \\
+            &\quad + \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec F}^-(k_x,k_y,\omega) e^{i(k_xx+k_yy+\omega t)} e^{-ik_z z} \: \d k_x \d k_y \d \omega.
+        \end{align*}
+        Povšimněme si ale faktu, že číslo $k^2$ je komplexní. Argument exponenciály
+        \begin{align*}
+            \pm ik_z z = \pm i\sqrt{k^2-k_x^2-k_y^2}z
+        \end{align*}
+        tedy má reálnou a imaginární část, a tak samotnou exponenciálu můžeme rozdělit na součin komplexní a reálné. Pišme tedy
+        \begin{align*}
+            \vec F(\vec r, t) &= \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec F}^+(k_x,k_y,\omega) e^{i(k_xx+k_yy+\omega t)} e^{i\Re(k_z) z} e^{-\Im(k_z) z} \: \d k_x \d k_y \d \omega +
+        \\
+            &\quad + \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec F}^-(k_x,k_y,\omega) e^{i(k_xx+k_yy+\omega t)} e^{-i\Re(k_z) z} e^{\Im(k_z) z} \: \d k_x \d k_y \d \omega,
+        \end{align*}
+        kde
+        \begin{align*}
+            \Re(k_z) &= \sqrt{\left| k_z^2 \right|} \cos\( \frac 12 \arg\(k_z^2\) \),
+        &
+            \Im(k_z) &= \sqrt{\left| k_z^2 \right|} \sin\( \frac 12 \arg\(k_z^2\) \).
+        \end{align*}
+        Vidíme, že s rostoucí vzdáleností od zdroje ($z \to \pm\infty$) nám amplituda $\vec F$ vždy díky jednomu z řešení $\hat{\vec F}^\pm$ diverguje, kdežto druhé řešení se tlumí. To je samozřejmě fyzikálně nemožné. Bude tedy nutné volit jednotlivá řešení $\hat{\vec F}^\pm$ v závislosti na konkrétní vlně (pravděpodobně to bude matematicky přímo vyplývat z počátečních podmínek), abychom zajistili vždy pouze tlumení celkové vlny.
+        
+        Jelikož z analýzy rovinných elektromagentických vln%
+            \footnote{Přesně si nepamatuju, kde to vzniká, ale taky se člověk dobere někde k duálnímu řešení, a tak musí vybrat znaménko. Standardně se bere $\Im(k_z) < 0$.}
+        již existuje konvence $\Im(k_z) < 0$, držme se jí také zde. Přepišme si tedy vztahy do finální podoby
+        \begin{align*}
+            \vec F(\vec r, t) &= \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec F}^+(k_x,k_y,\omega) e^{i(k_xx+k_yy+\omega t)} e^{i\Re(k_z) z} e^{|\Im(k_z)| z} \: \d k_x \d k_y \d \omega +\nonumber
+        \\
+            &\quad + \frac{1}{(2\pi)^3} \int_{k_x,k_y,\omega} \hat{\vec F}^-(k_x,k_y,\omega) e^{i(k_xx+k_yy+\omega t)} e^{-i\Re(k_z) z} e^{-|\Im(k_z)| z} \: \d k_x \d k_y \d \omega,
+        \end{align*}
+        neboli
+        \begin{align*}
+            \Aboxed{\vec F(\vec r, t) &= \ifourier{k_x,k_y,\omega}{\hat{\vec F}^+(k_x,k_y,\omega) e^{i\Re(k_z) z} e^{|\Im(k_z)| z} + \hat{\vec F}^-(k_x,k_y,\omega) e^{-i\Re(k_z) z} e^{-|\Im(k_z)| z}}{t}.}
+        \end{align*}
+        Nyní jsme již pouhý krůček od toho učinit závěr, že $\hat{\vec F}^+$ odpovídá vlnám šířícím se v grafu závislosti $|\vec F|(z)$ doleva od zdroje (v $z \to -\infty$ exponenciála tlumí), kdežto $\hat{\vec F}^-$ vlnám šířícím se doprava od zdroje (tentokrát tlumí pro $z \to \infty$).
+
+        \paragraph*{Výsledek.} Z finálního tvaru vyjádření intenzity složek elektromagnetického pole můžeme vidět, že imaginární složka vlnového vektoru ve směru šíření je odpovědná za tlumení celkové vlny.%
+            \footnote{Někdo by mohl namítnout, že exponenciála se ve vyjádření objevuje v integrandu. Integrace ale vždycky exponenciálu zachová ve všech členech potenciálního výsledku integrace.}
+        To ale samozřejmě znamená, že pokud se exponenciály nezbavíme, bude se vlna ve vzdálenosti od zdroje - v praxi se ukazuje, že vcelku rychle - tlumit. Takové vlny lze obecně charakterizovat požadavkem $\Im(k_z) \neq 0$ a říkáme jim vlny \emph{evanescentní}.%
+            \footnote{Z latinského slova \emph{evanescens,} v překladu \emph{mizivý} či \emph{prchavý}.}
+        Vlny splňující specifickou opačnou podmínku $\Im(k_z)=0$ nazýváme \emph{propagující}.
+        
+
+\end{document}

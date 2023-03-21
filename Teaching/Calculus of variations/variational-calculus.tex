@@ -1,0 +1,572 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,hmargin=1in,vmargin=1in]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{stddoc}
+\usepackage{siunitx}
+\usepackage{multicol}
+
+\makeatletter
+\def\thmheadbrackets#1#2#3{%
+	\thmname{#1}\thmnumber{\@ifnotempty{#1}{ }\@upn{#2}}%
+	\thmnote{{ \the\thm@notefont[#3]}}}
+\makeatother
+
+\newtheoremstyle{theorem}			% name
+	{\topsep}						% Space abovetommy
+	{\topsep}						% Space below
+	{\normalfont}					% Body font
+	{}								% Indent amount
+	{\bfseries}						% Theorem head font
+	{.}								% Punctuation after theorem head
+	{1em}							% Space after theorem head
+	{\thmheadbrackets{#1}{#2}{#3}}	% theorem head spec
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Věta}[section]
+\newtheorem{claim}{Tvrzení}[section]
+\newtheorem{example}{Příklad}[section]
+% The additional parameter [section] restarts the theorem counter at every new section.
+\newtheorem{corollary}{Důsledek}[theorem]
+% An environment called corollary is created, the counter of this new environment will be reset every time a new theorem environment is used.
+\newtheorem{lemma}[theorem]{Lemma}
+% In this case, the even though a new environment called lemma is created, it will use the same counter as the theorem environment.
+\newtheorem*{recap}{Opakování}
+% Píčovinka pro potřeby tohoto dokumentu
+\renewenvironment{proof}[1][\proofname]{{\bfseries #1.\quad}}{\qed}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Poznámka}
+\newtheorem*{solution}{Řešení}
+% The syntax of the command \newtheorem* is the same as the non-starred version, except for the counter parameters. In this example a new unnumbered environment called remark is created.
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definice}[section]
+
+%\renewcommand\qedsymbol{$\blacksquare$}
+
+\begin{document}
+
+    \pagenumbering{arabic}
+
+% Hlavička
+    \begin{center}
+        \section*{Úvod do variačního počtu}
+        \vspace{-6mm}
+        \noindent\rule{14.5cm}{0.6pt}
+    \end{center}
+
+    \section{Opakování}
+
+        \begin{definition}
+            Zobrazení $\Phi: \mathcal M \subset X \to \R$, kde $X$ je obecný vektorový prostor (mnohdy nekonečné dimenze), se nazývá \emph{funkcionál}.
+        \end{definition}
+
+        \begin{definition}
+            $X$ se nazve \emph{normovaný prostor}, jestliže $X$ je vektorový prostor (pro nás nad $\R$) a každému prvku $x \in X$ je přiřazena norma $\norm x$ tak, že platí
+            \begin{enumerate}[label=(\roman*)]
+                \item $\norm x = 0$ právě tehdy, když $x=0$,
+                \item $\norm{ax} = |a|\norm x$,
+                \item $\norm{x+y} \leq \norm x + \norm y$,
+            \end{enumerate}
+            pro každé $x,y \in X$ a $a \in \R$.
+        \end{definition}
+
+        \begin{definition}
+            Definujeme \emph{okolí}
+            \begin{align*}
+                U(x_0,\delta) &\coloneqq \{x \in X \mid \norm{x-x_0} < \delta\},
+            \\
+                P(x_0,\delta) &\coloneqq U(x_0,\delta) \setminus{x_0}.
+            \end{align*}
+        \end{definition}
+
+        \begin{definition}
+            Funkcionál $\Phi : \mathcal M \subset X \to \R$ je \emph{spojitý} právě tehdy, když
+            \begin{align*}
+                \(\forall x_0 \in \mathcal M\)\(\forall \epsilon>0\)\(\exists \delta > 0\) \[x \in U(x_0,\delta) \cap \mathcal M \implies |\Phi(x)-\Phi(x_0)| < \epsilon\].
+            \end{align*}
+        \end{definition}
+
+        \begin{definition}
+            Nechť $\Phi:\mathcal M \subset X \to \R$ je funkcionál, kde $X$ je normovaný prostor.
+            \begin{enumerate}
+                \item Nechť $x_0, h \in X$. Limita (pokud existuje)
+                \begin{align*}
+                    \lim_{t\to0} \frac 1t \[\Phi(x_0 + th) - \Phi(x_0)\]
+                \end{align*}
+                se nazývá \emph{G\^ateauxův diferenciál} $\Phi$ v bodě $x_0$ ve směru $h$. Značí se $D\Phi(x_0;h)$. Ekvivalentně je $D\Phi(x_0;h) = \varphi'(0)$, kde $\varphi:\R \to \R$ je definována jako $\varphi(t)=\Phi(x_0+th)$.
+
+                \item Nechť $x_0 \in X$. Existuje-li spojité lineární zobrazení $A:X \to \R$, splňující
+                \begin{align*}
+                    \Phi(x_0+h) = \Phi(x_0) + A(h) + o(\norm h), \quad h \to 0,
+                \end{align*}
+                podrobněji
+                \begin{align*}
+                    \(\forall \epsilon > 0\)\(\exists \delta > 0\)\[h \in P(0,\delta) \implies \left| \frac{\Phi(x_0+h) - \Phi(x_0) - A(h)}{\norm h} \right| < \epsilon\],
+                \end{align*}
+                nazývá se \emph{Fréchetův diferenciál} $\Phi$ v bodě $x_0$. Značí se $\Phi'(x_0)$.
+            \end{enumerate}
+        \end{definition}
+
+        \begin{definition}
+            Nechť $\Phi: \mathcal M \subset X \to \R$. Bod $x_0 \in \mathcal M$ nazveme:
+            \begin{enumerate}
+                \item globální minimum, jestliže $\(\forall x \in \mathcal M\)\[\Phi(x) \geq \Phi(x_0)\]$,
+                \item lokální minimum, jestliže $\(\exists \delta > 0\)\(\forall x \in U(x_0;\delta) \cap \mathcal M\) \[\Phi(x) \geq \Phi(x_0)\]$,
+                \item ostré lokální minimum, jestliže $\(\exists \delta > 0\)\(\forall x \in U(x_0;\delta) \cap \mathcal M\) \[\Phi(x) > \Phi(x_0)\]$.
+            \end{enumerate}
+            Analogicky definujeme pomocí obrácených nerovností maxima.
+        \end{definition}
+
+        \begin{definition}
+            \emph{Nosič} funkce $f$ definujeme jako
+            \begin{align*}
+                \operatorname{supp} f \coloneqq \overline{\{x \in \R \mid f(x) \neq 0\}}.
+            \end{align*}
+        \end{definition}
+
+        \begin{definition}
+            Nechť $k \geq 0$ celé, $a < b \in \R$. Definujeme
+            \begin{align*}
+                C^k\([a,b]\) &\coloneqq \left\{ \tilde y|_{[a,b]} \mid \tilde y \in C^k(\R) \right\},
+            \\
+                C_0^1\([a,b]\) &\coloneqq \left\{ y \in C^1([a,b]) \mid y(a) = y(b) = 0 \right\}.
+            \end{align*}
+        \end{definition}
+
+    \section{Variační počet}
+
+        \begin{definition}
+            \emph{Základní úlohou variačního počtu} rozumíme nalezení extrémů $\Phi: \mathcal M \subset X \to \R$, kde $X = C^1([a,b])$,
+            \begin{equation}\tag{U}\label{def:U}
+                \begin{split}
+                    \Phi(y) &= \int\limits_a^b f(x,y(x),y'(x)) \: \d x,
+                \\
+                    \mathcal M &= \{ y \in C^1([a,b]) \mid y(a) = A, y(b) = B \}.
+                \end{split}
+            \end{equation}
+            Prostor $C^1([a,b])$ je opatřen normou $\norm y = \sup_{x \in [a,b]}\{|y(x)| + |y'(x)|\}$.
+        \end{definition}
+
+        \begin{theorem}
+            \label{thm:extremal-condition}
+            Nechť $\Phi : \mathcal M \subset X \to \R$ má v $x_0 \in \mathcal M$ lokální extrém. Nechť $h \in X$ je takové, že $D\Phi(x_0;h)$ existuje. Potom $D\Phi(x_0;h) = 0$.
+        \end{theorem}
+
+        \begin{proof}
+            Využijeme pomocné skalární funkce $\varphi(t) \coloneqq \Phi(x_0 + th)$.
+            Díky existenci G\^ateauxova diferenciálu $D\Phi(x_0;h)$ můžeme prohlásit, že
+            \begin{align*}
+                \(\exists t_m > 0\) : t \in (-t_m,t_m) \implies x_0 + th \in \mathcal M.
+            \end{align*}
+            Dále však předpokládáme, že $\Phi$ má v $x_0$ extrém, tzn.
+            \begin{align*}
+                \varphi'(0) = D\Phi(x_0;h) = 0.
+        \end{align*}
+        \end{proof}
+
+        \begin{theorem}
+            \label{thm:gat-dif-existence}
+            Je dána úloha \ref{def:U}. Nechť $y_0 \in \mathcal M$, $h \in C^1_0([a,b])$ jsou libovolná. Dále předpokládejme, že $f \in C^1$. Potom existuje $D \Phi(y_0;h)$ a platí
+            \begin{align}
+                D \Phi(y_0;h) = \int\limits_a^b \[f_{y}(x,y_0(x),y_0'(x)) h(x) + f_{z}(x,y_0(x),y_0'(x)) h'(x)\] \: \d x,
+            \end{align}
+            kde $f_{y} \equiv \pder f{y}$ a $f_{z} \equiv \pder f{z}$.
+        \end{theorem}
+
+        \begin{remark}
+            Proměnné $y$ a $z$ funkce $f$ jsou pouhá označení druhé a třetí proměnné.
+        \end{remark}
+
+        \begin{proof}
+            Opět využijeme pomocné funkce $\varphi(t) \coloneqq \Phi(y_0(x) + th(x))$, $\varphi'(0) = D\Phi(y_0;h)$, konkrétně
+            \begin{align*}
+                \varphi(t) &= \Phi(y_0+th) = \int_a^b \underbrace{f(x,\overbrace{y_0(x) + th(x)}^{y(t,x)}, \overbrace{y_0'(x) + th'(x)}^{z(t,x)})}_{g(t,x)} \: \d x.
+            \end{align*}
+            Pro její derivaci tedy musí platit
+            \begin{align*}
+                \varphi'(t) &= \vder t \int_a^b g(t,x) \: \d x = \int_a^b \pder gt(t,x) \: \d x,
+            \end{align*}
+            přičemž ohledně práva poslední úpravy tiše předpokládáme, že funkce splňuje Lebesgueovu větu. Dále tedy můžeme postupovat na základě znalosti derivace funkcí více proměnných jako
+            \begin{align*}
+                \pder gt (t,x) &= f_y(x,y_0(x) + th(x), y_0'(x) + th'(x)) h(x) +
+            \\
+                &\quad +f_z (x,y_0(x) + th(x), y_0'(x) + th'(x)) h'(x).
+            \end{align*}
+            To ovšem pro $\varphi'(0)$, neboli pro $D\Phi(y_0;h)$, znamená
+            \begin{align*}
+                \varphi'(0) = D\Phi(y_0;h) &= \int\limits_a^b \[f_{y}(x,y_0(x),y_0'(x)) h(x) + f_{z}(x,y_0(x),y_0'(x)) h'(x)\] \: \d x.
+            \end{align*}
+        \end{proof}
+
+        \begin{remark}[Diracova funkce $\delta$]
+            Jedná se o jakousi neopodstatněnou konstrukci splňující dvě vlastnosti: 1. $\forall x \neq 0, \; \delta(x) = 0$, 2. $\int_\R \delta(x) \: \d x = 1$. Taková funkce samozřejmě v kontextu tradičních funkcí a integrálu neexistuje. Její aplikace jsou však velice užitečné, a tak se pokusme si zkonstruovat funkci podobných vlastností.
+        \end{remark}
+
+        \begin{lemma}
+            \label{lemma:alt-dirac}
+            Nechť $\zeta(x)$ je libovolná omezená s omezeným nosičem a platí $\int_\R \zeta = 1$. Nechť funkce $f$ je spojitá v $x_0$. Potom platí
+            \begin{align}
+                \lim_{\epsilon \to 0} \int_\R f(x_0 + y) \zeta_\epsilon(y) \: \d y = f(x_0),
+            \end{align}
+            kde $\zeta_\epsilon(y) = \zeta(y/\epsilon)/\epsilon$.
+        \end{lemma}
+
+        \begin{proof}
+            Nejprve si ověřme, že také platí $\int_\R \zeta_\epsilon = 1$, neboť v předpokladech je tato identita zaručena pouze pro $\zeta$. Pišme tedy
+            \begin{align*}
+                \int_\R \zeta_\epsilon(x) \: \d x = \int_\R \frac 1\epsilon \zeta\(\frac{x}{\epsilon}\) \: \d x = \int_\R \zeta\(\frac{x}{\epsilon}\) \: \d \frac{x}{\epsilon} = \int_\R \zeta(y) \: \d y = 1.
+            \end{align*}
+            Funkce $\zeta$ je omezená a má omezený nosič, tzn. pro funkce $\zeta$ a $\zeta_\epsilon$ můžeme napsat
+            \begin{align*}
+                |\zeta(x)| &\leq K,
+            &
+                |\zeta_\epsilon(x)| &\leq \frac K \epsilon,
+            \\
+                \operatorname{supp} \zeta &\subset [-K,K],
+            &
+                \operatorname{supp} \zeta_\epsilon &\subset [-\epsilon K,\epsilon K].
+            \end{align*}
+            Snažíme se dokázat
+            \begin{align*}
+                \(\forall \eta > 0\) \(\exists \xi > 0\) : \epsilon \in (0,\xi) \implies \left| \int_\R f(x_0 + y) \zeta_\epsilon(y) \: \d y - f(x_0) \right| < \eta.
+             \end{align*}
+             Ze spojitosti funkce $f$ v bodě $x_0$ můžeme napsat
+             \begin{align*}
+                 \(\forall \eta > 0\) \(\exists \xi > 0\) : \forall x \in U(x_0, K\xi) \implies |f(x_0) - f(x)| < \frac{\eta}{2K^2}.
+             \end{align*}
+             Pomocí pár úprav a základních vět o integrálu můžeme postupovat
+             \begin{align*}
+                \left| \int_\R f(x_0 + y) \zeta_\epsilon(y) \: \d y - f(x_0) \right| &= \left| \int_\R f(x_0 + y) \zeta_\epsilon(y) \: \d y - f(x_0) \int_\R \zeta_\epsilon(y) \: \d y \right| =
+            \\
+                &= \left| \int_\R \[f(x_0 + y) - f(x_0)\] \zeta_\epsilon(y) \: \d y \right| = \begin{vmatrix}
+                    y = \epsilon x
+                \\
+                    \d y = \epsilon \d x
+                \end{vmatrix} =
+            \\
+                &= \left| \int_\R \[f(x_0 + \epsilon x) - f(x_0)\] \zeta(x) \: \d x \right| \leq
+            \\
+                &\leq \int_\R \left| \[f(x_0 + \epsilon x) - f(x_0)\] \zeta(x) \right| \: \d x \leq
+            \\
+                &\leq K \int_{-K}^K |f(x_0 + \epsilon x) - f(x_0)| \: \d x \leq
+            \\
+                &\leq K \cdot 2K \cdot \frac{\eta}{2K^2} = \eta,
+             \end{align*}
+             přičemž po substituci v integrálu dostáváme $f(x_0 + \epsilon x)$, z čehož získáváme přesně levou stranu kýžené implikace $\epsilon \in (0,\xi)$ jakožto požadavek, aby $x_0 + \epsilon x \in U(x_0;K\xi)$.
+        \end{proof}
+
+        \begin{corollary}
+            Funkce $f$ je spojitá v $x_0$:
+            \begin{align*}
+                \lim_{\epsilon \to 0} \frac 1\epsilon \int\limits_{x_0}^{x_0 + \epsilon} f(x) \: \d x &= f(x_0), \quad \zeta(x) = \begin{cases}
+                    1 & x \in (0,1),
+                \\
+                    0 & \text{jinde},
+                \end{cases}
+            \\
+                \lim_{\epsilon \to 0} \frac{1}{2\epsilon} \int\limits_{x_0 - \epsilon}^{x_0 + \epsilon} f(x) \: \d x &= f(x_0), \quad \zeta(x) = \begin{cases}
+                    1/2 & x \in (-1,1),
+                \\
+                    0 & \text{jinde}.
+                \end{cases}
+            \end{align*}
+        \end{corollary}
+
+        \begin{remark}
+            Jedna z konkrétních konstrukcí výše zkoumané shlazovací funkci (molifiéru) může například být
+            \begin{align*}
+                \zeta(x) = \begin{cases}
+                    0, & |x| \geq 1,
+                \\
+                    C \exp^{\frac{1}{x^2-1}}, & |x| < 1.
+                \end{cases}
+            \end{align*}
+            Tato funkce pak i vizuálně v limitě dobře aproximuje chování Diracovy \uv{funkce} $\delta$. Funkci můžeme centrovat do libovolného zkoumaného bodu, tj.
+            \begin{align*}
+                \zeta_{x_0,\epsilon}(x) = \frac 1\epsilon \zeta\(\frac{x-x_0}{\epsilon}\).
+            \end{align*}
+        \end{remark}
+
+        \begin{lemma}[Slabá forumulace diferenciální rovnice]{\hspace{1cm}}
+            \label{lemma:dif-eq}
+            \begin{enumerate}
+                \item Nechť $u \in C([a,b])$. Potom $u \equiv 0$ na $[a,b]$ právě tehdy, když
+                \begin{align}
+                    \int\limits_a^b u(x)h(x) \: \d x = 0 \qquad \forall h \in C^1_0([a,b]).
+                \end{align}
+
+                \item Nechť $w \in C^1([a,b])$, $v \in C([a,b])$. Potom $-w'+v \equiv 0$ na $[a,b]$ právě tehdy, když
+                \begin{align}
+                    \int\limits_a^b \[ w(x)h'(x) + v(x)h(x) \] \: \d x &= 0 \qquad \forall h \in C^1_0([a,b]).
+                \end{align}
+            \end{enumerate}
+        \end{lemma}
+
+        \begin{proof}
+            \begin{enumerate}
+                \item \begin{enumerate}[label=(\roman*)]
+                    \item \uv{$\implies$} očividné.
+                    
+                    \item \uv{$\impliedby$} volme $x_0 \in (a,b)$ libovolné, $h(x) = \zeta((x-x_0)/\epsilon)/\epsilon$. Pro takovou funkci jistě platí $h \in C^1_0([a,b])$ pro malá $\epsilon$. Dále $\operatorname{supp} h = [x_0 - \epsilon, x_0 + \epsilon] \subset [a,b]$.
+                    \begin{align*}
+                        0 &= \int_a^b u(x) h(x) \: \d x = \int\limits_{x_0-\epsilon}^{x_0+\epsilon} u(x) \frac{1}{\epsilon} \zeta\(\frac{x-x_0}{\epsilon}\) \: \d x = \begin{vmatrix}
+                            y = x-x_0
+                        \\
+                            \d y = \d x
+                        \end{vmatrix} =
+                    \\
+                        &= \int\limits_{-\epsilon}^\epsilon u(y+x_0)\zeta_\epsilon(y) \: \d y \xrightarrow{\epsilon \to 0^+} u(x_0).
+                    \end{align*}
+                    Díky libovůli $x_0 \in (a,b)$ můžeme prohlást $u \equiv 0$ na $[a,b]$ (v krajních bodech dostáváme tvrzení díky spojitosti $u$ a platnosti na vnitřku intervalu).
+                \end{enumerate}
+
+                \item Jako první si upravíme první integrál pomocí metody \emph{per-partes} jako
+                \begin{align*}
+                    \int_a^b w(x) h'(x) \: \d x &= \underbrace{\[ w(x)h(x) \]_a^b}_{0} - \int_a^b w'(x) h(x) \: \d x.
+                \end{align*}
+                Přepišme si tedy cílené trvzení jako
+                \begin{align*}
+                    \int_a^b \[ w(x)h'(x) + v(x)h(x) \] \: \d x &= 0,
+                \\
+                    \int_a^b \[ -w'(x) h(x) + v(x)h(x) \] \: \d x &= 0,
+                \\
+                    \int_a^b \[ -w'(x) + v(x) \] h(x) \: \d x &= 0,
+                \end{align*}
+                tj. dle prvního tvrzení $-w'+v \equiv 0$ na $[a,b]$.
+            \end{enumerate}
+        \end{proof}
+
+        \begin{theorem}[Euler-Lagrange]
+            Je dána úloha \ref{def:U}. Nechť $y \in \mathcal M$ je lokální extrém. Předpokládejme navíc, že $y \in C^2$ a $f \in C^2$. Potom $y$ splňuje na $[a,b]$ rovnici
+            \begin{align}\tag{E.L.}\label{eq:E-L}
+                -\vder x f_{z}(x,y(x),y'(x)) + f_{y}(x,y(x),y'(x)) &= 0.
+            \end{align}
+        \end{theorem}
+
+        \begin{proof}
+            Dle věty \ref{thm:gat-dif-existence}
+            \begin{align*}
+                \exists D \Phi(y;h) = \int_a^b \[ f_{y}(x,y(x),y'(x))h(x) + f_{z}(x,y(x),y'(x))h'(x) \] \: \d x.
+            \end{align*}
+            Dále dle věty \ref{thm:extremal-condition}:
+            \begin{align*}
+                D \Phi(y;h) = 0 \quad \forall h \in C^1_0([a,b]).
+            \end{align*}
+            To ovšem dle lemmatu \ref{lemma:dif-eq} znamená
+            \begin{align*}
+                \int_a^b \[ f_{y}(x,y(x),y'(x))h(x) + f_{z}(x,y(x),y'(x))h'(x) \] \: \d x &= 0,
+            \\
+                -f_{z}' + f_{y} &\equiv 0 \text{ na } [a,b].
+            \end{align*}
+        \end{proof}
+
+        \paragraph{Grand Finále.}
+            Položíme-li pouze v předchozí větě $f = L$ a $y = q$, dostáváme jednorozměrný případ monumentálního fyzikálního objektu, a to Lagrangeových rovnic II. druhu, tj.
+            \begin{align*}
+                -\vder t \(\pder{L}{\dot q}\) + \pder{L}{q} &= 0.
+            \end{align*}
+
+        \begin{definition}
+            Rovnice z předchozí věty se nazývá \emph{Euler-Lagrangeova rovnice funkcionálu} $\Phi$. Každé její řešení, náležící $\mathcal M$ (tj. splňující okrajové podmínky $y(a) = A$, $y(b) = B$), nazýváme \emph{extremálou} úlohy \ref{def:U}.
+        \end{definition}
+
+        \begin{theorem}[Legendre]
+            Je dána úloha \ref{def:U}. Nechť $y \in \mathcal M$ je $C^2$, $f \in C^2$. Potom
+            \begin{enumerate}
+                \item je-li $y$ lokální minimum, je $f_{zz}(x,y(x),y'(x)) \geq 0$ pro všechna $x \in (a,b)$;
+                \item je-li $y$ lokální maximum, je $f_{zz}(x,y(x),y'(x)) \leq 0$ pro všechna $x \in (a,b)$.
+            \end{enumerate}
+        \end{theorem}
+
+        \begin{proof}
+            Využijme znovu pomocné funkce $\varphi(t) \coloneqq \Phi(y+th)$, kde $h$ určíme později.%
+                \footnote{V této části důkazu u funkcí $y$, $y'$ a $h$ vynecháváme argument $x$ v zájmu estetiky sazby textu. Formálně je tam samozřejmě stále uvažujeme.}
+            Předpokládejme, že funkcionál $\Phi$ má v $y$ lokální minimum, tj. $\varphi$ má lokální minimum v $t=0$. Z reálné analýzy jedné proměnné víme, že potom musí platit
+            \begin{align*}
+                \varphi'(0) &= 0,
+            &
+                \varphi''(0) &\geq 0.
+            \end{align*}
+            Tvar $\varphi'$ jsme odvodili v důkazu věty \ref{thm:gat-dif-existence}. Můžeme tedy psát
+            \begin{align*}
+                \varphi'(t) &= \int_a^b \[ f_{y}(x,y+th,y'+th)h + f_{z}(x,y+th,y'+th')h' \] \: \d x.
+            \end{align*}
+            Odvození tvaru $\varphi''$ lze provést ve řízení, pišme tedy rovnou
+            \begin{align*}
+                \varphi''(t) &= \int_a^b \[ f_{yy}(x,y+th,y'+th)h^2 + f_{yz}(x,y+th,y'+th)hh' + \right.
+            \\
+                &\quad + \left. f_{zy}(x,y+th,y'+th)h'h + f_{zz}(x,y+th,y'+th)[h']^2 \] \: \d x.
+            \end{align*}
+            Díky předpokladu, že $f \in C^2$ ovšem platí rovnost $f_{yz} = f_{zy}$. Pro $\varphi''(0)$ můžeme tedy zjednodušit vyjádření do tvaru
+            \begin{align*}
+                \varphi''(0) &= \int_a^b \[ f_{yy}(x,y,y')h^2 + 2f_{yz}(x,y,y')hh' + f_{zz}(x,y,y')[h']^2 \] \: \d x \geq 0.
+            \end{align*}
+            Nyní uvažujme $x_0 \in (a,b)$ a
+            \begin{align*}
+                h(x) = h_\epsilon(x) = \begin{cases}
+                    \epsilon - |x-x_0| & x \in U(x_0,\epsilon),
+                \\
+                    0 & \text{jinde}.
+                \end{cases}
+            \end{align*}
+            Můžeme tedy uvažovat
+            \begin{align*}
+                0 \leq \frac{1}{2\epsilon} \varphi''(0) \equiv I_1(\epsilon) + I_2(\epsilon) + I_3(\epsilon).
+            \end{align*}
+            Dále díky předpokladu $f \in C^2$ můžeme na základě spojtosti psát, že
+            \begin{align*}
+                |f_{yy}(x,y(x),y'(x))| &\leq K,
+            &
+                |f_{yz}(x,y(x),y'(x))| &\leq K.
+            \end{align*}
+            Mimo to také určitě platí
+            \begin{align*}
+                |h_\epsilon(x)| &\begin{cases}
+                    \leq \epsilon & x \in U(x_0,\epsilon),
+                \\
+                    =0 & \text{jinde},
+                \end{cases}
+            &
+                |h'_\epsilon(x)| &= \begin{cases}
+                    1 & x \in U(x_0,\epsilon),
+                \\
+                    0 & \text{jinde}.
+                \end{cases}
+            \end{align*}
+            Pro první dva integrály tedy můžeme psát odhad
+            \begin{align*}
+                |I_1(\epsilon)| &\leq \frac{1}{2\epsilon} \int\limits_{x_0-\epsilon}^{x_0+\epsilon} \underbrace{|f_{yy}(x,y(x),y'(x))|}_{\leq K} \underbrace{\left| h^2(x) \right|}_{\leq \epsilon^2} \: \d x \leq \frac{1}{2\epsilon} 2\epsilon K\epsilon^2 \xrightarrow{\epsilon \to 0} 0,
+            \\
+                |I_1(\epsilon)| &\leq \frac{1}{2\epsilon} \int\limits_{x_0-\epsilon}^{x_0+\epsilon} \underbrace{|f_{yz}(x,y(x),y'(x))|}_{\leq K} \underbrace{|h(x)|}_{\leq \epsilon} \underbrace{|h'(x)|}_{1} \: \d x \leq \frac{1}{2\epsilon} 2\epsilon K\epsilon \xrightarrow{\epsilon \to 0} 0,
+            \end{align*}
+            kde refukce $(a,b)$ na $(x_0-\epsilon,x_0+\epsilon)$ proběhla na základě definice $h=h_\epsilon$. Jako poslední odhadneme absolutní hodnotu třetího integrálu, tedy výrazu
+            \begin{align*}
+                I_3(\epsilon) = \frac{1}{2\epsilon} \int\limits_{x_0-\epsilon}^{x_0+\epsilon} f_{zz}(x,y(x),y'(x)) [h']^2(x) \: \d x.
+            \end{align*}
+            Funkce $f_{zz}$ je ovšem v bodě $x_0$ spojítá a také platí $\int_\R [h']^2/(2\epsilon) = 1$. Jsou tedy splněny předpoklady lemmatu \ref{lemma:alt-dirac}, které dává výsledek
+            \begin{align*}
+                I_3(\epsilon) \xrightarrow{\epsilon \to 0} f_{zz}(x,y(x_0),y'(x_0)).
+            \end{align*}
+            Vrátíme-li tedy výsledky jednotlivých integrálů do původní nerovnosti, dostáváme
+            \begin{align*}
+                0 \leq I_1(\epsilon) + I_2(\epsilon) + I_3(\epsilon),
+            \end{align*}
+            neboli v limitě $\epsilon \to 0$ konečně
+            \begin{align*}
+                f_{zz}(x_0,y(x_0),y'(x_0)) \geq 0,
+            \end{align*}
+            kde $x_0 \in (a,b)$ je libovolné. Důkaz probíhá analogicky pro případ, kdy $y$ je lokální maximum.
+        \end{proof}
+
+        \begin{remark}
+            Během důkazu jsme odvodili tvar druhého G{\^a}teauxova diferenciálu
+            \begin{align*}
+                D^2(\Phi;h,h) = \int_a^b \[ f_{yy}(x,y,y')h^2 + 2f_{yz}(x,y,y')hh' + f_{zz}(x,y,y')[h']^2 \] \: \d x.
+            \end{align*}
+        \end{remark}
+
+        \begin{lemma}
+            \label{lemma:scleronomic-constraint}
+            Nechť $f$ nezávisí explicitně na $x$, tj. $f = f(y,z)$. Potom každé řešení \ref{eq:E-L} rovnice řeší také rovnici
+            \begin{align}
+                \label{eq:scleronomic-constraint}
+                -y'f_z(y,y') + f(y,y') = K,
+            \end{align}
+            kde $K$ je vhodná reálná konstanta.
+        \end{lemma}
+
+        \begin{proof}
+            Označme si $Y \equiv -y'f_z(y,y') + f(y,y')$. Potom jistě $Y = K \Longleftrightarrow Y' = 0$ v $(a,b)$. Pro $Y'$ ale platí
+            \begin{align*}
+                Y' &= \vder x \[-y(x)'f_z(y(x),y'(x)) + f(y(x),y'(x))\]
+            \\
+                &= -y''(x)f_z(y(x),y'(x)) - y'(x) \vder x \[f_z(y(x),y'(x))\] +
+            \\
+                &\quad + f_y(y(x),y'(x))y'(x) + f_z(y(x),y'(x)) y''(x)
+            \\
+                &= y' \bigg[ \underbrace{\vder x \(f_z(y(x),y'(x))\) + f_y(y(x),y'(x))y'(x)}_{\ref{eq:E-L}} \bigg].
+            \end{align*}
+        \end{proof}
+
+        \begin{definition}
+            Nechť $y \in \mathcal M$ je extremála úlohy \ref{def:U}. Označme
+            \begin{align}
+                P(x) &\equiv f_{zz}(x,y(x),y'(x)),
+            \\
+                Q(x) &\equiv f_{yy}(x,y(x),y'(x)) - [f_{yz}(x,y(x),y'(x))]'.
+            \end{align}
+            Rovnice
+            \begin{align}
+                \label{eq:jacobi}
+                \tag{J}
+                [P(x)u'(x)]' - Q(x)u(x) = 0
+            \end{align}
+            pro neznámou funkci $u=u(x)$ se nazývá \emph{Jacobiho rovnice}, příslušná dané extremále.
+
+            Bod $\tilde x \in (a,b]$ se nazve \emph{konjugovaný bod} rovnice \ref{eq:jacobi}, pokud existuje netriviální (tj. ne identicky nulové) řešení $u(x)$ takové, že $u(a) = u(\tilde x) = 0$.
+        \end{definition}
+
+        \begin{theorem}[Jacobiho]
+            \label{thm:jacobi}
+            Nechť $y \in C^2([a,b])$ je extremálou úlohy \ref{def:U}, nechť $f \in C^3(\R^3)$. Nechť \ref{eq:jacobi} je příslušná Jacobiho rovnice, přičemž $P(x) > 0$ v $[a,b]$.
+            \begin{enumerate}
+                \item Je-li $y$ lokální maximum, pak rovnice \ref{eq:jacobi} nemá v intervalu $(a,b)$ konjugovaný bod.
+                \item Jestliže rovnice \ref{eq:jacobi} nemá v intervalu $(a,b]$ konjugovaný bod, je $y$ ostré lokální minimum.
+            \end{enumerate}
+            Zrcadlová verze: $P(x) < 0$ v $[a,b]$, maximum místo minimum.
+        \end{theorem}
+
+        \begin{recap}[Vázané extrémy]
+            Nechť $M = \{x \in \R^n \mid G(x) = c\}$ a $x$ je lokální extrém $F:\R^n \to \R$ na množině $M$. Nechť vektor $\nabla G(x)$ je nenulový. Potom existuje $\lambda \in \R$ takové, že
+            \begin{align*}
+                \nabla F(x)-\lambda \nabla G(x) = \vec 0.
+            \end{align*}
+        \end{recap}
+
+        \begin{definition}
+            \emph{Variační úlohou s vazbou} rozumíme nalezení extrémů $\Phi$ na množině $\mathcal M$, kde
+            \begin{equation}
+                \label{def:V}
+                \tag{V}
+                \begin{split}
+                    \Phi(y) &= \int\limits_a^b f(x,y(x),y'(x)) \: \d x,
+                \\
+                    \mathcal M &= \left\{ y \in C^1_0([a,b]) \mid y(y) = c \right\},
+                \\
+                    \Psi(y) &= \int\limits_a^b g(x,y(x),y'(x)) \: \d x.
+                \end{split}
+            \end{equation}
+        \end{definition}
+
+        \begin{theorem}[Lagrangeův multiplikátor]
+            Nechť $y \in \mathcal M$ je lokální extrém úlohy \ref{def:V}. Předpokládejme, že $y \in C^2$, $f \in C^2$, $g \in C^2$, navíc $D\Psi(y;h) \neq 0$ alespoň pro jedno $h \in C^1_0([a,b])$. Potom existuje $\lambda \in \R$ takové, že
+            \begin{align}
+                \label{eq:lagrange-multiplicators}
+                \tag{L}
+                D\Phi(y;h) - \lambda D\Psi(y;h) &= 0 \qquad \forall h \in C_0^1([a,b]).
+            \end{align}
+        \end{theorem}
+
+        \paragraph{Použití \ref{eq:lagrange-multiplicators} na úlohu \ref{def:V}.}
+            Rovnice \ref{eq:lagrange-multiplicators} tvrdí nulovost G{\^a}teauxova diferenciálu pro funkcionál
+            \begin{align*}
+                \chi(y) = \int\limits_a^b f(x,y(x),y'(x)) - \lambda g(x,y(x),y'(x)) \: \d x,
+            \end{align*}
+            tedy extrémy \ref{def:V} řeší odpovídající \ref{eq:E-L} rovnici
+            \begin{align}
+                -\vder x \(f_{z}(x,y,y') - \lambda g(x,y,y')\) + f_{y}(x,y,y') - \lambda g_y(x,y,y') = 0.
+            \end{align}
+        
+        \begin{remark}
+            Poslední dvě věty ponecháváme bez důkazu.
+        \end{remark}
+        
+
+\end{document}
