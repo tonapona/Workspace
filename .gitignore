@@ -13,9 +13,11 @@
 *.xmpi
 *.fls
 *.fdb_latexmk
+venv/
 Taiwan/
 Texts/
 Uni/research/
+Uni/grad/SBS/script/results.txt
 
 # Packages #
 ############
