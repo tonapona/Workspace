@@ -22,7 +22,6 @@ def make_remote_request(url: str, params: dict):
         if not 'results' in response.json():
             continue
         break
-
     return response
 
 def elevation_function(x):
@@ -52,6 +51,7 @@ if __name__ == "__main__":
     data = pd.DataFrame({'lat': lat, 'lon': lon})
     data['elevation'] = data.apply(elevation_function, axis=1)
     data_csv = data.to_csv()
+    data_csv.replace("\r\n", "\n").replace("\r", "\n")
 
     # Process the data to find the point of maximum elevation
     data_rows = data_csv.split('\n')
@@ -67,4 +67,7 @@ if __name__ == "__main__":
 
     # Output the results into the file ./results.txt
     with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\results.txt", 'w') as file:
-        file.write("Maximum elevation is at the point number " + str(index_max) + "!!\n----\n\n" + "num" + data_csv)
+        file.write("The point of maximum elevation sits at [" + data_rows[index_max].split(',')[1] + "," + data_rows[index_max].split(',')[2] + "] with the rough value of elevation " + str(round(float(elevations[index_max].replace("\r", "")))) + " m!\n\n")
+        file.write('*'*20 + "DATA" + '*'*20 + '\n' + "num" + data_csv)
+
+    # To be done in the future: distance to the point of max elevation and other functionalities for calculations
