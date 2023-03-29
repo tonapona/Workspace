@@ -40,22 +40,27 @@ if __name__ == "__main__":
     # Input settings
     start = [50.0835, 14.395081]            # Petrinska rozhledna
     stop =  [49.9708, 14.056111]            # Televizni dokryvac Ded-Beroun
-    number_of_points = 300                  # Number of points to be examined for elevation
+    number_of_points = 600                  # Number of points to be examined for elevation
 
-    # Calculate of latitudes and longitudes of the specified number of examined points along the way of the raido relay link
-    lat = []
-    lon = []
-    difference = [None]*2
-    [difference[0], difference[1]] = [stop[0] - start[0], stop[1] - start[1]]
-    for i in range(number_of_points + 1):
-        lat.append(start[0] + i*difference[0]/number_of_points)
-        lon.append(start[1] + i*difference[1]/number_of_points)
+    # ## Getting new data from server
+    # # Calculate of latitudes and longitudes of the specified number of examined points along the way of the raido relay link
+    # lat = []
+    # lon = []
+    # difference = [None]*2
+    # [difference[0], difference[1]] = [stop[0] - start[0], stop[1] - start[1]]
+    # for i in range(number_of_points + 1):
+    #     lat.append(start[0] + i*difference[0]/number_of_points)
+    #     lon.append(start[1] + i*difference[1]/number_of_points)
+    # # Obtain the elevation of the calculated points
+    # data = pd.DataFrame({'lat': lat, 'lon': lon})
+    # data['elevation'] = data.apply(elevation_function, axis=1)
+    # data_csv = data.to_csv(header=None, lineterminator='\n')
+    # with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\data.txt", 'w') as file:
+    #     file.write(data_csv)
 
-    # Obtain the elevation of the calculated points
-    data = pd.DataFrame({'lat': lat, 'lon': lon})
-    data['elevation'] = data.apply(elevation_function, axis=1)
-    data_csv = data.to_csv()
-    data_csv.replace("\r\n", "\n").replace("\r", "\n")  # CRLF -> LF
+    ## Static data for debugging
+    with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\data.txt", 'r') as file:
+        data_csv = file.read()
 
     # Process the data to find the point of maximum terrain elevation
     data_rows = data_csv.split('\n')
@@ -90,8 +95,8 @@ if __name__ == "__main__":
 
     # Output the results into the file ./results.txt
     with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\results.txt", 'w') as file:
-        file.write("The point of maximum elevation sits at [" + data_rows[index_max].split(',')[1] + "," + data_rows[index_max].split(',')[2] + "] with the rough elevation value of " + str(round(float(elevations[index_max]))) + " m.\n")
-        file.write("Path-clearance calculation parameters: d = " + str(d) + ", d1 = " + str(d1) + ", d2 = " + str(d2) + ",\n")
-        file.write("h0 = " + str(h0) + " m, F1 = " + str(F1) + " m, x = " + str(x) + " m.\n")
-        file.write("Height of the antenna required for line-of-sight path clearance: Rxh = " + str(Rxh) + " m.\n")
-        file.write("\n" + '*'*20 + "DATA" + '*'*20 + '\n' + "num" + data_csv)
+        file.write('*'*20 + "PATH-CLEARANCE PARAMETERS" + '*'*20 + "\n")
+        file.write("Point of maximum elevation (~" + str(round(float(elevations[index_max]))) + " m): [" + data_rows[index_max].split(',')[1] + "," + data_rows[index_max].split(',')[2] + "]\n")
+        file.write("Calculation parameters: d = " + str(round(d.km,2)) + " km, d1 = " + str(round(d1.km,2)) + " km, d2 = " + str(round(d2.km,2)) + " km, h0 = " + str(round(h0,2)) + " m, F1 = " + str(round(F1,2)) + " m, x = " + str(round(x,2)) + " m.\n")
+        file.write("Obtained height of the antenna required for line-of-sight path clearance: Rxh = " + str(round(Rxh,2)) + " m.\n")
+        file.write("\n" + '*'*20 + "DATA" + '*'*20 + '\n' + data_csv)
