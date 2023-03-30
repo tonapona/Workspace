@@ -7,6 +7,8 @@ from numpy import sqrt
 from math import ceil
 from time import sleep
 
+## Dictionary of possible transmitters: [x, y, max_antenna_height]
+# max_antenna_height = 10 for unknown values
 TRANSMITTERS = {
     "Praha Slivenec": [50.02011399999999, 14.34015700000002, 10],
     "Bubovice": [49.9724979999999, 14.17755099999998, 10],
@@ -15,8 +17,11 @@ TRANSMITTERS = {
     "Chyne": [50.018478, 14.19571300000003, 10],
     "Strahov": [50.07985277777778, 14.37583333333333, 60],
     "Beroun-Zavodi": [49.97116999999999, 14.111799, 10],
+    "FEL": [50.103153, 14.392759, 40],
+    "Beroun-Mestska hora": [49.9626386, 14.0650983, 14],
 }
 
+### Simple persistent request function
 def get_elevation(point):
     url = 'https://api.opentopodata.org/v1/eudem25m?'
     query = {'locations': f"{point[0]},{point[1]}"}
@@ -33,6 +38,7 @@ def get_elevation(point):
         break
     return response.json()['results'][0]['elevation']
 
+### Function for calculating and printing path-clearance parameters
 def path_clearance(transmitter1, transmitter2):
     ## Initialization
     start = TRANSMITTERS[transmitter1]
@@ -92,6 +98,7 @@ def path_clearance(transmitter1, transmitter2):
         file.write("\n" + '*'*20 + "DATA" + '*'*20 + '\n' + data_csv)
 
 
+### Main function
 if __name__ == "__main__":
     ## Path clearance function with user input
     path_clearance("Strahov", "Beroun-Zavodi")
