@@ -4,67 +4,60 @@ import urllib
 import urllib3
 import geopy.distance
 from numpy import sqrt
+from math import ceil
 from time import sleep
 
+TRANSMITTERS = {
+    "Praha Slivenec": [50.02011399999999, 14.34015700000002, 10],
+    "Bubovice": [49.9724979999999, 14.17755099999998, 10],
+    "Zlicin": [50.05122599999999, 14.28301700000001, 10],
+    "Rudna": [50.018478, 14.19571300000003, 10],
+    "Chyne": [50.018478, 14.19571300000003, 10],
+    "Strahov": [50.07985277777778, 14.37583333333333, 60],
+    "Beroun-Zavodi": [49.97116999999999, 14.111799, 10],
+}
 
-# Performs a remote request and continues to make attempts until it succeeds
-def make_remote_request(url: str, params: dict):
-    count = 1
+def get_elevation(point):
+    url = 'https://api.opentopodata.org/v1/eudem25m?'
+    query = {'locations': f"{point[0]},{point[1]}"}
     while True:
         try:
-            response = requests.get((url + urllib.parse.urlencode(params)))
-        except (OSError, urllib3.exceptions.ProtocolError) as error:
-            print('\n')
+            response = requests.get((url + urllib.parse.urlencode(query)))
+        except (OSError, urllib3.exceptions.ProtocolError) as ex:
             print('*' * 20, 'Error Occured', '*' * 20)
-            print(f'Number of tries: {count}')
-            print(f'URL: {url}')
-            print(error)
-            print('\n')
-            count += 1
+            print(ex)
             continue
         if not 'results' in response.json():
             sleep(0.5)
             continue
         break
-    return response
+    return response.json()['results'][0]['elevation']
 
-def elevation_function(x):
-    url = 'https://api.opentopodata.org/v1/eudem25m?'
-    # Open-Elevation API might be used as an alternate source of elevation data but I haven't had any luck with it
-    # url = 'https://api.open-elevation.com/api/v1/lookup?'
-    params = {'locations': f"{x[0]},{x[1]}"}
-    return make_remote_request(url, params).json()['results'][0]['elevation']
+def path_clearance(transmitter1, transmitter2):
+    ## Initialization
+    start = TRANSMITTERS[transmitter1]
+    stop =  TRANSMITTERS[transmitter2]
+    Rx = transmitter2
+    if get_elevation(start[0:2]) > get_elevation(stop[0:2]): start, stop = stop, start, Rx = transmitter1
 
+    ## Inspect the path of the radio link for elevation every 100 meters
+    d = geopy.distance.geodesic(start[0:2], stop[0:2])
+    number_of_points = ceil(d.m/100)
+    # number_of_points = 10     # small number of points for debugging
 
-if __name__ == "__main__":
-    # Input settings
-    start = [50.0835, 14.395081]            # Petrinska rozhledna
-    stop =  [49.9708, 14.056111]            # Televizni dokryvac Ded-Beroun
-    number_of_points = 600                  # Number of points to be examined for elevation
+    lat = []
+    lon = []
+    difference = [stop[0] - start[0], stop[1] - start[1]]
+    for i in range(number_of_points + 1):
+        lat.append(start[0] + i*difference[0]/number_of_points)
+        lon.append(start[1] + i*difference[1]/number_of_points)
 
-    # ## Getting new data from server
-    # # Calculate of latitudes and longitudes of the specified number of examined points along the way of the raido relay link
-    # lat = []
-    # lon = []
-    # difference = [None]*2
-    # [difference[0], difference[1]] = [stop[0] - start[0], stop[1] - start[1]]
-    # for i in range(number_of_points + 1):
-    #     lat.append(start[0] + i*difference[0]/number_of_points)
-    #     lon.append(start[1] + i*difference[1]/number_of_points)
-    # # Obtain the elevation of the calculated points
-    # data = pd.DataFrame({'lat': lat, 'lon': lon})
-    # data['elevation'] = data.apply(elevation_function, axis=1)
-    # data_csv = data.to_csv(header=None, lineterminator='\n')
-    # with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\data.txt", 'w') as file:
-    #     file.write(data_csv)
+    data = pd.DataFrame({'lat': lat, 'lon': lon})
+    data['elevation'] = data.apply(get_elevation, axis=1)
+    data_csv = data.to_csv(header=None, lineterminator='\n')
 
-    ## Static data for debugging
-    with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\data.txt", 'r') as file:
-        data_csv = file.read()
-
-    # Process the data to find the point of maximum terrain elevation
+    ## Process the data to find the point of maximum terrain elevation
     data_rows = data_csv.split('\n')
-    del data_rows[0]
     number_of_rows = len(data_rows) - 1
     elevations = [None]*number_of_rows
     for i in range(number_of_rows):
@@ -72,31 +65,33 @@ if __name__ == "__main__":
     index_max = max(range(len(elevations))[1:-1], key=elevations.__getitem__)
     point_max = data_rows[index_max].split(',')[1:3]
 
-    # Calculate the radius of the first Fresnel zone F1
-    f = 18                                              # frequency of the radio link in GHz
-    d = geopy.distance.geodesic(start, stop)            # overall distance of the relay
-    d1 = geopy.distance.geodesic(start, point_max)      # distance from start to the point of max elevation
-    d2 = geopy.distance.geodesic(point_max, stop)       # distance from the point of max elevation to stop
-    assert d - (d1 + d2) < 1e-04                        # adding the previous two should yield overall
+    ## Calculate the radius of the first Fresnel zone F1
+    f = 18                                                  # frequency of the radio link in GHz
+    d1 = geopy.distance.geodesic(start[0:2], point_max)     # distance from start to the point of max elevation
+    d2 = geopy.distance.geodesic(point_max, stop[0:2])      # distance from the point of max elevation to stop
+    assert d - (d1 + d2) < 1e-04                            # adding the previous two should yield overall
     F1 = 17.3*sqrt((d1.km*d2.km)/(f*d.km))
 
-    # Calculate the subrefraction height correction x
-    R_Z = 6371000                                       # mean value of the Earth's radius in m
-    k_e = 4/3                                           # value of the subrefractive factor k for normal atmosphere
-    R_e = k_e*R_Z                                       # effective value of Earth's radius due to subrefraction
+    ## Calculate the subrefraction height correction x
+    R_Z = 6371000                                           # mean value of the Earth's radius in m
+    k_e = 4/3                                               # value of the subrefractive factor k for normal atmosphere
+    R_e = k_e*R_Z                                           # effective value of Earth's radius due to subrefraction
     x = (d1.m*d2.m)/(2*R_e)
 
-    # Obtain antenna height at stop
-    h1 = float(elevations[0]) + 60                      # fixed antenna height in start (Petrin - 60 m) including terrain elevation
-    h0 = float(elevations[index_max])                   # maximum terrain elevation along the path
-
-    # (h2 - h1)/d = ((h0 + x + F1) - h1)/d1, where h2 = elevation2 + Rxh
+    ## Obtain antenna height at stop
+    h1 = float(elevations[0]) + start[2]                    # fixed antenna height in start including terrain elevation
+    h0 = float(elevations[index_max])                       # maximum terrain elevation along the path
     Rxh = d.m*(h0 + x + F1 - h1)/d1.m + h1 - float(elevations[-1])
 
-    # Output the results into the file ./results.txt
-    with open(r"C:\\Workspace\\Uni\\grad\\SBS\\script\\results.txt", 'w') as file:
-        file.write('*'*20 + "PATH-CLEARANCE PARAMETERS" + '*'*20 + "\n")
-        file.write("Point of maximum elevation (~" + str(round(float(elevations[index_max]))) + " m): [" + data_rows[index_max].split(',')[1] + "," + data_rows[index_max].split(',')[2] + "]\n")
-        file.write("Calculation parameters: d = " + str(round(d.km,2)) + " km, d1 = " + str(round(d1.km,2)) + " km, d2 = " + str(round(d2.km,2)) + " km, h0 = " + str(round(h0,2)) + " m, F1 = " + str(round(F1,2)) + " m, x = " + str(round(x,2)) + " m.\n")
-        file.write("Obtained height of the antenna required for line-of-sight path clearance: Rxh = " + str(round(Rxh,2)) + " m.\n")
+    ## Output the results into a file
+    with open(fr"C:\\Workspace\\Uni\\grad\\SBS\\script\\{transmitter1}_{transmitter2}_{number_of_points}points.txt", 'w') as file:
+        file.write('*'*20 + "PATH-CLEARANCE" + '*'*20 + "\n")
+        file.write("Point of maximum elevation h0: [" + point_max[0] + "," + point_max[1] + "]\n")
+        file.write("Parameters: d = " + str(round(d.km,2)) +" km, d1 = " + str(round(d1.km,2)) + " km, d2 = " + str(round(d2.km,2)) + " km, h1 = (" + str(round(float(elevations[0]))) + " + " + str(round(start[2])) + ") m, h0 = " + str(round(h0,2)) + " m, F1 = " + str(round(F1,2)) + " m, x = " + str(round(x,2)) + " m\n")
+        file.write("Height of the " + Rx + " antenna required for line-of-sight path clearance: Rxh = " + str(round(Rxh,2)) + " m\n")
         file.write("\n" + '*'*20 + "DATA" + '*'*20 + '\n' + data_csv)
+
+
+if __name__ == "__main__":
+    ## Path clearance function with user input
+    path_clearance("Strahov", "Beroun-Zavodi")

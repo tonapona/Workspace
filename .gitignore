@@ -13,12 +13,12 @@
 *.xmpi
 *.fls
 *.fdb_latexmk
+.vscode/
 venv/
 Taiwan/
 Texts/
 Uni/research/
-Uni/grad/SBS/script/results.txt
-Uni/grad/SBS/script/data.txt
+Uni/grad/SBS/script/*.txt
 CST projects/
 
 # Packages #
