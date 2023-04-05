@@ -13,6 +13,9 @@
 *.xmpi
 *.fls
 *.fdb_latexmk
+*.toc
+*.snm
+*.nav
 .vscode/
 venv/
 Taiwan/
