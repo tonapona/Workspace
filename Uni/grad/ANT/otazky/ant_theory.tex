@@ -37,11 +37,11 @@
     \item \emph{Describe antenna as a filter (in which domains does it filter) and a transformer of waves from guided to waves in free space.}\\
     Antenna behaves like a passive filter in both frequency and spatial domain. It transforms guided waves from a waveguide into radiates waves propagating in free space.
 
-    \item \emph{When an antenna is electrically small and large (in terms in $ka$)? Give examples of such antennas.}\\
+    \item \emph{When an antenna is electrically small and large (in terms of $ka$)? Give examples of such antennas.}\\
     An electrically small antenna is an antenna with $ka \in (0.5, 1)$, where $k = 2\pi/\lambda$ is the wave number. En example of an electrically small antenna is the antenna of Titanic: physical length of $50 \; \mathrm m$ with $f = 500 \; \mathrm{kHz}$.
 
     \item \emph{What characterizes a TEM transmission line (impedance and operation with frequency)? Sketch distribution of E and H in (a) coaxial line, (b) rectangular waveguide with TE10 mode, (c) microstrip line.}\\
-    A truly TEM transmission line in non-disperive meaning that its parameters such as characteristic impedance and phase velocity don't change with frequency. Such TEM mode exists in a coaxial line on all frequencies or in a microstrip line (quasi-TEM) under a specified \emph{cut-off frequency}. In metallic waveguides such as a rectangular waveguide, TE/TM modes propagate above respective cut-off frequencies.
+    A truly TEM transmission line is non-disperive meaning that its parameters such as characteristic impedance and phase velocity don't change with frequency. Such TEM mode exists in a coaxial line on all frequencies or in a microstrip line (quasi-TEM) under a specified \emph{cut-off frequency}. In metallic waveguides such as a rectangular waveguide, TE/TM modes propagate above respective cut-off frequencies.
     \begin{figure}[!ht]
         \centering
     \begin{subfigure}{0.45\textwidth}
@@ -89,7 +89,7 @@
         
         \item Farfield region $kr \gg 1$: Most important region of an antenna. $E_r$ vanishes and only transversal (to $r$) field components ($E_\theta$ and $H_\varphi$) remain.
     \end{itemize}
-    It can't be isotropic even for dipole length approaching 0 due to the projection $\sin(\theta)$. Magnetic dipole has farfield components $E_\varphi$ and $H_\theta$.
+    It can't be isotropic even for dipole length approaching 0 due to its farfield pattern $f(\theta,\varphi) = \sin(\theta)$. Magnetic dipole has farfield components $E_\varphi$ and $H_\theta$.
 
     \item \emph{Define radiation intensity and antenna directivity. Directivity vs electrical size of antenna. Radiation pattern properties (sidelobe level, front-to-back ratio, half power beamwidth, polarization).}\\
     Radiation intensity $U$ is defined as the power radiated from an antenna per unit space angle (in steradians) and is related to the farfield $E$ of the antenna:
@@ -132,7 +132,7 @@
     \\
         E_r(r,\theta) &= \frac{Z_0IL}{2\pi} \cos(\theta) \bigg[ \underbrace{\frac{1}{r^2}}_{\mathrm{nearfield}} + \underbrace{\frac{1}{ikr^3}}_{\mathrm{nearfield}} \bigg] e^{-ikr},
     \\
-        E_\theta(r,\theta) &= \frac{ikZ_0IL}{4\pi} \sin(\theta) \bigg[ \underbrace{\frac 1r}_{\mathrm{farfield}} + \underbrace{\frac{1}{ikr^2}}_{\mathrm{nearfield}} - \underbrace{\frac{1}{k^2r^3}}_{\mathrm{nearfield}} \bigg] e^{-ikr},
+        E_\theta(r,\theta) &= \frac{ikZ_0IL}{4\pi} \sin(\theta) \bigg[ \underbrace{\frac 1r}_{\mathrm{farfield}} + \underbrace{\frac{1}{ikr^2} - \frac{1}{k^2r^3}}_{\mathrm{nearfield}} \bigg] e^{-ikr},
     \\
         H_r &= H_\theta = 0,
     \\
@@ -149,7 +149,7 @@
         \tag{Sinusoidal}
         I(z) &= I_0 \sin\(k\(\frac L2 - |z|\)\).
     \end{align}
-    For the length $L = 0.5\lambda$, we obtain the sinusoidal distribution. The triangular distribution arises for smaller dipoles, whereas the constant distribution concerns the elemental dipole.
+    For length $L = 0.5\lambda$, we obtain the sinusoidal distribution, the triangular distribution arises for smaller dipoles, and the constant distribution is the case of the elemental dipole.
 
     \item \emph{Sketch current distribution at dipoles of lengths $0.1\lambda$, $0.5\lambda$, $1\lambda$, $1.25\lambda$, $2\lambda$, \dots What effect do out-of-phase currents have on farfield?}\\
     \begin{figure}[!ht]
@@ -178,8 +178,8 @@
     Radiation pattern: omnidirectional in the $H$-plane which is a useful property for many applications including mobile communications.\\
     Directivity: reasonable value (2.15 dBi), larger than of short dipoles.\\
     Imput impedance: $~73 \; \Omega$ which is pretty much well matched with a standard transmission line of characteristic impedance of $75 \; \Omega$; not sensitive to changes in the radius of the dipole.\\
-    Shortening: the dipole itself is not exactly resonant and hence should be shortened by a little amount, depending on the radius.\\
-    Bandwidth: connected to its input impedance; 5 to 15 \% from the central frequency.
+    Shortening: the dipole itself is not exactly resonant and hence should be shortened by a little amount depending on the radius.\\
+    Bandwidth: 5 to 15 \% from the central frequency depending on the input impedance.
 
     \item \emph{Folded $\lambda/2$ dipole - impedance, pattern}\\
     Its impedance is about 4 times of the normal dipole which significantly increases its bandwidth. The pattern is similar to the normal dipole I think?
@@ -187,13 +187,13 @@
     \item \emph{Symmetrization, baluns}\\
     Symmetrization problem arises when connecting an unbalanced transmission line to the antenna. The balanced mode is when there are equal and opposite currents.\\
     Balun transforms the balanced input impedance of the dipole to the unbalanced impedance of the coaxial line such that there is no net curernt on the outer conductor of the coax.\\
-    Further comments: non-symmetrical feeders are cheaper and simpler but require a symmetrization unit (balun) for connection to the symmetrical antenna.
+    Further comments: non-symmetrical feeders are cheaper and simpler but require a symmetrization element (balun) for connection to the symmetrical antenna.
 
     \item \emph{Monopole antennas (impedance, pattern compared to dipoles), method of images}\\
     Impedance: roughly half the dipole version\\
     Gain: roughly double (+3 dBi)\\
     Pattern: radiates only above ground\\
-    Method of images: replacement of the ideally infinite ground plane by an opposite electrode creating dipole structure for radiation. Realistically, we use radial lines (pieces of wires) instead of the ideal infinite ground plane.
+    Method of images: mathematical replacement of the ideally infinite ground plane by a virtual opposite electrode creating dipole structure for radiation. In practice, we use radial lines (pieces of wires) instead of the ideal infinite ground plane.
 
     \item \emph{Horizontal dipole above ground - method of images}\\
     By superposition, the ground plane above which the horizontal dipole sits can be modelled by a virtual image dipole with opposite current feed in the halfspace below ground plane.
@@ -203,14 +203,14 @@
         E_\theta(r,\theta,\varphi) &= \underbrace{\frac{ikZ_0}{4\pi} \frac{e^{-ikr}}{r} \sin(\theta)}_A \underbrace{\int_{-l/2}^{l/2} I_z(z') e^{ikz' \cos(\theta)} \; \d z'}_B
     \end{align*}
     A: element factor (elementary dipole contribution)\\
-    B: space factor (Fourier transform of the source)
+    B: space factor (Fourier transform of the sources)
 
     \item \emph{Aperture antennas - equivalent source approach}\\
-    First, we envelop the antenna with a closed surface because we are interested in the field far beyond the antenna, not the field nearby. Then we substitute the sources distributed inside the closed surface ("volume of the antenna") by sources only on the surface. These currents must be so that they produce the same field around the antenna. Lastly we set the fields inside equal to zero which alters the field inside where we don't care. 
+    First, we envelop the antenna with a closed surface because we are interested in the field far beyond the antenna, not the field nearby. Then we substitute the sources distributed inside the closed surface (`volume of the antenna') by sources only on the surface. These currents must be so that they produce the same field around the antenna. Lastly we set the fields inside equal to zero which alters the field inside where we don't care. 
     
     \item \emph{Aperture in infinite ground plane and in free space - what equivalent sources to use?}\\
     Infinite ground plane: $\vec M = -2\vec n \times \vec E$.\\
-    Free space: $M = -\vec n \times \vec E$ and $\vec J = \vec n \times \vec H$. Additionally we demand that the feeding waveguide contains a TEM wave.
+    Free space: $\vec M = -\vec n \times \vec E$ and $\vec J = \vec n \times \vec H$. Additionally we demand that the feeding waveguide contains a TEM wave.
     
     \item \emph{Physical meaning of radiation integrals in near and far field. Far field distance, conditions for far field ($1/r$ dependence, $E/H$ ratio, transversal fields)}\\
     Aperture radiation can be imagined as the radiation of an infinite number of point sources placed in the aperture. The radiation integrals are a superposition of these sources' contributions.\\
@@ -272,7 +272,7 @@
     \item \emph{What happens if the feed is off the focus of the parabolic reflector antenna?}
     \item \emph{Explain (sketch) illumination and spillover loss in the parabolic reflector antenna.}
     \item \emph{What is typical aperture efficiency of the parabolic reflector antenna? What edge taper corresponds to the maximum efficiency?}
-    \item \emph{What are the properties of an "ideal" feed for parabolic reflector antenna?}
+    \item \emph{What are the properties of an `ideal' feed for parabolic reflector antenna?}
     \item \emph{What effects mostly contribute to the antenna noise antenna temperature?}
 \end{enumerate}
 

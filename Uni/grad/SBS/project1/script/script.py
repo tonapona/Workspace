@@ -88,6 +88,10 @@ def path_clearance(transmitter1, transmitter2, Txh = 0):
     h1 = float(elevations[0]) + Txh                         # fixed antenna height in start including terrain elevation
     h0 = float(elevations[index_max])                       # maximum terrain elevation along the path
     Rxh1 = d.m*(h0 + x + F1 - h1)/d1.m + h1 - float(elevations[-1])
+    ## Calculate average terrain height
+    h_avg = 0
+    for elevation in elevations: h_avg += float(elevation)
+    h_avg = h_avg/len(elevations)
 
     ## Calculate the subrefraction height correction x for the path length in question
     k_e = 157/(144+2670/d.m)
@@ -110,8 +114,7 @@ def path_clearance(transmitter1, transmitter2, Txh = 0):
     FSL = 20*log10(4*pi*f*1e9*d.m/c) - Gr - Gt
 
     ## Attenuation due to atmospheric gases
-    # gamma should be obtained according to ITU-R P.676
-    gamma = 0.097
+    gamma = 0.1                                             # rough value of gamma obtained from graphs in ITU-R P.676
     Aa = gamma*d.km
 
     ## Output the results into a file
@@ -119,6 +122,7 @@ def path_clearance(transmitter1, transmitter2, Txh = 0):
         file.write('*'*20 + "PATH-CLEARANCE" + '*'*20 + "\n")
         file.write("Point of maximum elevation h0: [" + point_max[0] + "," + point_max[1] + "]\n")
         file.write("Parameters: d = " + str(round(d.km,2)) + " km, d1 = " + str(round(d1.km,2)) + " km, d2 = " + str(round(d2.km,2)) + " km, h1 = (" + str(round(float(elevations[0]))) + " + " + str(round(start[2])) + ") m, h0 = " + str(round(h0,2)) + " m, F1 = " + str(round(F1,2)) + " m, x = " + str(round(x,2)) + " m\n")
+        file.write("Average terrain height: h_avg = " + str(round(h_avg, 2)) + " m.\n")
         file.write("Height of the " + Rx + " antenna required for line-of-sight path clearance: Rxh = " + str(round(Rxh,2)) + " m\n")
         file.write("Corresponding losses: Ad = " + str(round(Ad, 2)) + " dB, FSL = " + str(round(FSL, 2)) + " dB, Aa = " + str(round(Aa, 2)) + " dB\n")
         file.write("\n" + '*'*20 + "DATA" + '*'*20 + '\n' + data_csv)
